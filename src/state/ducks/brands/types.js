@@ -1,0 +1,1 @@
+export const SEARCH_BRANDS = 'BRAND/SEARCH_BRANDS';

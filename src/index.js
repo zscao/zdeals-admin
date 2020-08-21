@@ -1,13 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+
+import { ToastContainer } from 'react-toastify';
+
+import store from './state/store';
+
+import './index.scss';
+
+import App from './app/App';
 import * as serviceWorker from './serviceWorker';
 
+const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={store}>
+    <BrowserRouter basename={baseUrl}>
+      <App />
+    </BrowserRouter>
+    <ToastContainer position="bottom-left" />
+  </Provider>,
   document.getElementById('root')
 );
 
