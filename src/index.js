@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import { ToastContainer } from 'react-toastify';
@@ -16,9 +15,7 @@ const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter basename={baseUrl}>
-      <App />
-    </BrowserRouter>
+    <App baseUrl={baseUrl} />
     <ToastContainer position="bottom-left" />
   </Provider>,
   document.getElementById('root')

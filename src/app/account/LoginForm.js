@@ -29,7 +29,9 @@ export default function LoginForm({onSubmit}) {
       <Form.Group>
         <Form.Check type="checkbox" label="Remember me on this device" />
       </Form.Group>
-      <Button variant="primary" type="submit">Login</Button>
+      <Form.Row className="justify-content-center">
+        <Button variant="primary" type="submit">Login</Button>
+      </Form.Row>
     </Form>
   )
 }

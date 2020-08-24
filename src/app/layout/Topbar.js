@@ -1,5 +1,7 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Navbar, Nav } from 'react-bootstrap'
+
 
 
 export default function Topbar() {
@@ -15,12 +17,12 @@ export default function Topbar() {
         Admin Portal
       </Navbar.Brand>
       <Nav className="mr-auto">
-        <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-        <Nav.Link href="/deals">Deals</Nav.Link>
-        <Nav.Link href="/stores">Stores</Nav.Link>
+        <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
+        <Nav.Link as={Link} to="/deals">Deals</Nav.Link>
+        <Nav.Link as={Link} to="/stores">Stores</Nav.Link>
       </Nav>
       <Nav>
-        <Nav.Link href="/account">Account</Nav.Link>
+        <Nav.Link as={Link} to="/account">Account</Nav.Link>
       </Nav>
     </Navbar>
   )

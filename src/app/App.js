@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 
 import PrivateRoute from './layout/PrivateRoute'
 
@@ -39,24 +39,23 @@ const PortalStores = () => (<PortalLayout><Stores /></PortalLayout>);
 const PortalAccount = () => (<PortalLayout><Account /></PortalLayout>);
 
 
-class App extends React.Component {
-  
-  render() {
-    return (
+const App = ({ baseUrl }) => {
+  return (
+    <BrowserRouter basename={baseUrl}>
       <Container fluid>
-          <Switch>
-            <Route exact path="/" component={FullPageLogin}/>
-            <PrivateRoute path="/dashboard" component={PortalDashboard} />
-            <PrivateRoute path="/deals" component={PortalDeals} />
-            <PrivateRoute path="/stores" component={PortalStores} />
-            <PrivateRoute path="/account" component={PortalAccount} />
+        <Switch>
+          <Route exact path="/" component={FullPageLogin} />
+          <PrivateRoute path="/dashboard" component={PortalDashboard} />
+          <PrivateRoute path="/deals" component={PortalDeals} />
+          <PrivateRoute path="/stores" component={PortalStores} />
+          <PrivateRoute path="/account" component={PortalAccount} />
 
-            <Route path="/login" component={FullPageLogin} />
-            <Redirect to="/dashboard" />
-          </Switch>
+          <Route path="/login" component={FullPageLogin} />
+          <Redirect to="/dashboard" />
+        </Switch>
       </Container>
-    );
-  }
+    </BrowserRouter>
+  );
 }
 
 export default App;
