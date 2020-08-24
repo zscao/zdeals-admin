@@ -21,17 +21,24 @@ export class TreeView extends React.Component {
   componentDidMount() {
     
     this.model.addEventListener('selectItem', item => {
-      console.log('item selected in model1: ', item);
-      this.setState({
-        refresh: !this.state.refresh
-      })
+      //console.log('item selected in model1: ', item);
+      this.forceUpdate();
     })
     this.model.addEventListener('toggleOpen', item => {
-      console.log('open status changed: ', item);
-      this.setState({
-        refresh: !this.state.refresh
-      })
+      //console.log('open status changed: ', item);
+      this.forceUpdate();
     })
+  }
+
+  componentDidUpdate(prevProps) {
+
+    const prevData = prevProps.data;
+    const currData = this.props.data;
+
+    if((!prevData && currData) || (prevData && !currData) || (prevData.length !== currData.length)) {
+      this.model.resetData(currData);
+      this.forceUpdate();
+    }
   }
 
   selectItem = key => {
@@ -39,7 +46,6 @@ export class TreeView extends React.Component {
   }
 
   toggleOpenStatus = key => {
-    console.log('need to toggle ', key);
     this.model.toggleOpenStatus(key);
   }
 
@@ -55,7 +61,7 @@ export class TreeView extends React.Component {
             <React.Fragment key={item.key}>
               <ListGroup.Item  active={item.active}>
                 <FontAwesomeIcon icon={item.open ? faAngleDown : faAngleRight} className="expander" onClick={() => this.toggleOpenStatus(item.key)} />
-                <FontAwesomeIcon icon={item.open ? faFolderOpen : faFolder} className="icon" />
+                <FontAwesomeIcon icon={item.open ? faFolderOpen : faFolder} className="folder" />
                 <span onClick={() => this.selectItem(item.key)}>{item.title}</span>
               </ListGroup.Item>
               <Collapse in={item.open}>
@@ -65,7 +71,7 @@ export class TreeView extends React.Component {
           ) : (
             <ListGroup.Item key={item.key} active={item.active}>
               <FontAwesomeIcon icon={faMinus} className="placeholder" />
-              <FontAwesomeIcon icon={faFile} className="icon" />
+              <FontAwesomeIcon icon={faFile} className="file" />
               <span onClick={() => this.selectItem(item.key)}>{item.title}</span>
             </ListGroup.Item>
           )
@@ -75,6 +81,6 @@ export class TreeView extends React.Component {
   }
 
   render() {
-    return this.renderListGroup(this.model.data);
+    return this.renderListGroup(this.model.getData());
   }
 }

@@ -1,25 +1,7 @@
 
 export default function TreeNodes(data = []) {
 
-  console.log('building tree nodes with: ', data);
-
-  let index = 0;
-  let _nodes = buildNodes(data);
-
-  // private function
-  function buildNodes(list, level = 1) {
-    if (!Array.isArray(list)) return undefined;
-
-    return list.map(x => ({
-        key: `key-${index++}`,
-        title: x.title,
-        children: buildNodes(x.children, level + 1),
-        open: false, //(level <= expandLevel) && Array.isArray(x.children) && x.children.length > 0,
-        level: level,
-        active: false,
-        data: x
-      }));
-  }
+  let _data = [];
 
   function findNode(list, key) {
     for (let i = 0; i < list.length; i++) {
@@ -35,48 +17,49 @@ export default function TreeNodes(data = []) {
   }
 
   function resetData(data = []) {
-    _nodes = buildNodes(data);
+    _data = buildNodes(data);
   }
 
   // private function
-  function forEachCall(list, callback) {
+  function forEach(list, callback) {
+    if(!Array.isArray(list)) return;
+
     for (let i = 0; i < list.length; i++) {
       const node = list[i];
       callback(node);
       
       if(Array.isArray(node.children)) {
-        forEachCall(node.children, callback);
+        forEach(node.children, callback);
       }
     }
   }
 
-  // function forEach(callback) {
-  //   if(typeof(callback) !== 'function') throw 'Invalid callback function';
-
-  //   forEachCall(_nodes, callback)
-  // }
-
   function expandOnLevel(level) {
-    forEachCall(_nodes, node => {
+    const nodes = _data;
+    forEach(nodes, node => {
       if(node.level <= level) node.open = true;
     })
   }
 
   function toggleOpenStatus(key) {
-    const node = findNode(_nodes, key);
+    const nodes = _data;
+    const node = findNode(nodes, key);
     if (node) {
       node.open = !node.open;
 
       // set open to false on all children
       if (!node.open && Array.isArray(node.children))
-        forEachCall(node.children, c => c.open = false);
+        forEach(node.children, c => c.open = false);
     }
     return node;
   }
 
   function setActiveItem(key) {
     let selected = undefined;
-    forEachCall(_nodes, node => {
+    
+    const nodes = _data;
+    
+    forEach(nodes, node => {
       if(node.key === key) { 
         node.active = true;
         selected = node;
@@ -88,13 +71,36 @@ export default function TreeNodes(data = []) {
     return selected;
   }
 
+  // build data model
+  _data = buildNodes(data);
+
   return Object.freeze({
-    // forEach,
-    data: _nodes,
+    getData: () => _data,
     toggleOpenStatus,
     setActiveItem,
     expandOnLevel,
     resetData,
   })
+}
+
+function buildNodes(data) {
+
+  let index = 0;
+
+  function buildSubNodes(list, level = 1) {
+    if (!Array.isArray(list)) return undefined;
+
+    return list.map(x => ({
+        key: `key-${index++}`,
+        title: x.title,
+        children: buildSubNodes(x.children, level + 1),
+        open: false, //(level <= expandLevel) && Array.isArray(x.children) && x.children.length > 0,
+        level: level,
+        active: false,
+        data: x
+      }));
+  }
+
+  return buildSubNodes(data);
 }
 

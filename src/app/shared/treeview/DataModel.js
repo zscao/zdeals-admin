@@ -28,15 +28,24 @@ export default function DataModel(data = [], expandLevel = 0) {
   }
 
   function toggleOpenStatus(key) {
-    console.log('toggle open: ', key);
+
     const toggled = _nodes.toggleOpenStatus(key);
-    console.log('toggled: ', toggled);
+
     if(toggled) {
       const listners = _listeners.searchEventListeners(EventNames.ToggleOpen);
       if(listners.length > 0) {
         listners.forEach(f => f.callback(toggled));
       }
     }
+  }
+
+  function resetData(data) {
+    _nodes.resetData(data);
+    _nodes.expandOnLevel(expandLevel);
+  }
+
+  function getData() {
+    return _nodes.getData();
   }
 
   function addEventListener(event, callback) {
@@ -61,7 +70,8 @@ export default function DataModel(data = [], expandLevel = 0) {
 
 
   return Object.freeze({
-    data: _nodes.data,
+    getData,
+    resetData: resetData,
     selectItem,
     toggleOpenStatus,
     addEventListener,

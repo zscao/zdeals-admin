@@ -6,7 +6,7 @@
 
     > .list-group {
       margin-bottom: 0;
-      margin-left: 20px;
+      margin-left: 16px;
     }  
 
     .list-group-item {
@@ -24,8 +24,11 @@
           color: transparent;
           cursor: default;
         }
-        &.icon {
+        &.file {
           color: #FF7B31;
+        }
+        &.folder {
+          color: #C40316;
         }
       }
       > span {
@@ -34,6 +37,9 @@
         border-radius: 0.25rem;
         border: 1px solid transparent;
         display: inline-block;
+        white-space: pre;
+        overflow: hidden;
+        text-overflow: ellipsis;
         flex-grow: 1;
         // &:hover {
         //   border: 1px solid rgba(0, 0, 0, 0.125);
