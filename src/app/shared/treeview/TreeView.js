@@ -42,7 +42,9 @@ export class TreeView extends React.Component {
   }
 
   selectItem = key => {
-    this.model.selectItem(key)
+    const selected = this.model.selectItem(key);
+    if(selected && typeof(this.props.onSelectItem) === 'function') 
+      this.props.onSelectItem(selected.data);
   }
 
   toggleOpenStatus = key => {

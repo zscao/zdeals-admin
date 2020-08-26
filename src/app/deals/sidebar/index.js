@@ -1,15 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { Row, Col, Button } from 'react-bootstrap'
 
 import TreeView from '../../shared/treeview'
-import { mapCategoryToTreeNode } from '../../helpers'
+import { mapCategoryToTreeNode, createHistoryJumper } from '../../helpers'
 
 
 import * as categoryActions from '../../../state/ducks/categories/actions'
 
 class Sidebar extends React.Component {
+
+  jumper = createHistoryJumper(this.props.history);
 
   constructor(props) {
     super(props);
@@ -39,19 +41,26 @@ class Sidebar extends React.Component {
 
   }
 
+  onSelectTreeItem = item => {
+    const { basePath } = this.props;
+    //console.log('tree item selected: ', item);
+    const next = `${basePath}/list?c=${item.code}`;
+    this.jumper.jumpTo(next);
+  }
+
   render() {
 
     const { basePath } = this.props;
 
     return (
       <>
-        <Row>
+        <Row className="mb-3">
           <Col>
-            <Button as={Link} to={`${basePath}/create`}>Create</Button>
+            <Button as={Link} to={`${basePath}/create`} variant="success" block>New Deal +</Button>
           </Col>
         </Row>
 
-        <TreeView data={this.state.nodes} expandLevel={1} />
+        <TreeView data={this.state.nodes} expandLevel={1} onSelectItem={this.onSelectTreeItem} />
 
       </>
     )
@@ -67,4 +76,4 @@ const mapDispatchToProps = {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Sidebar))

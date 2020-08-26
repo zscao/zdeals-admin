@@ -6,6 +6,7 @@ export const mapCategoryToTreeNode = list => {
   return list.map(c => ({
     id: c.id,
     title: c.title,
+    code: c.code,
     children: mapCategoryToTreeNode(c.children)
   }))
 }

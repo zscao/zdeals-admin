@@ -1,3 +1,27 @@
 .main-container {
-  // padding-top: 10px;
+  padding: 16px;
+}
+
+.side-container {
+  padding-top: 16px;
+}
+
+
+.form-buttons {
+  margin-top: 1.5rem;
+  text-align: right;
+
+  .btn {
+    margin: 0 8px;
+  }
+}
+
+.card {
+  &.tab-content {
+    border-top-width: 0;
+  }
+}
+
+.clickable {
+  cursor: pointer;
 }

@@ -2,8 +2,8 @@
 
 export const createHistoryJumper = history => {
   function jumpTo(next) {
-    console.log('jumpping to: ', next);
-    console.log('history', history);
+    //console.log('jumpping to: ', next);
+    //console.log('history', history);
     if(!next || !history || typeof(history.push) !== 'function') return;
     history.push(next);
   }

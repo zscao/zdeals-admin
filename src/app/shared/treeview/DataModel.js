@@ -16,7 +16,7 @@ export default function DataModel(data = [], expandLevel = 0) {
   _nodes.expandOnLevel(expandLevel);
 
   function selectItem(key) {
-    console.log(`select item: `, key);
+    //console.log(`select item: `, key);
 
     const selected = _nodes.setActiveItem(key);
     if(selected) {
@@ -25,6 +25,8 @@ export default function DataModel(data = [], expandLevel = 0) {
         listners.forEach(f => f.callback(selected));
       }
     }
+
+    return selected;
   }
 
   function toggleOpenStatus(key) {
@@ -37,6 +39,8 @@ export default function DataModel(data = [], expandLevel = 0) {
         listners.forEach(f => f.callback(toggled));
       }
     }
+
+    return toggled;
   }
 
   function resetData(data) {
