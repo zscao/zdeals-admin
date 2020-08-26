@@ -7,6 +7,7 @@ import './index.scss'
 import Sidebar from './sidebar'
 import CreateDeal from './create'
 import EditDeal from './edit'
+import ListDeal from './list'
 
 function Deals() {
 
@@ -17,13 +18,13 @@ function Deals() {
       <Col lg="2" className="side-container">
         <Sidebar basePath={path} />
       </Col>
-      <Col className="main-container">
+      <Col className="content-container">
         <Switch>
           <Route exact path={path}>
             Deals default
           </Route>
           <Route path={`${path}/list`}>
-            Deal List
+            <ListDeal />
           </Route>
           <Route path={`${path}/create`}>
             <CreateDeal />

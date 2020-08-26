@@ -6,7 +6,7 @@ import { Navbar, Nav } from 'react-bootstrap'
 
 export default function Topbar() {
   return (
-    <Navbar bg="dark" variant="dark">
+    <Navbar bg="dark" variant="dark" fixed="top">
       <Navbar.Brand href="/dashboard">
         <img
           alt=""

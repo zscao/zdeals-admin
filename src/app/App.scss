@@ -1,11 +1,22 @@
+body {
+  background-color: #f3f4fa;
+}
+
+.main-viewport {
+  min-height: calc(100vh - 100px);
+}
+
 .main-container {
+  margin-top: 60px;
+}
+
+.content-container {
   padding: 16px;
 }
 
 .side-container {
   padding-top: 16px;
 }
-
 
 .form-buttons {
   margin-top: 1.5rem;

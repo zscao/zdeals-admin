@@ -130,11 +130,13 @@ class EditDeal extends React.Component {
   }
 
   goBack = () => {
-    const path = this.props.location.pathname;
-    if (path) {
-      const up = this.jumper.pathUp(path, 2);
-      if (up) this.jumper.jumpTo(up);
-    }
+    const list = '/deals/list';
+    this.jumper.jumpTo(list);
+    // const path = this.props.location.pathname;
+    // if (path) {
+    //   const up = this.jumper.pathUp(path, 2);
+    //   if (up) this.jumper.jumpTo(up);
+    // }
   }
 
   getButtons = () => {

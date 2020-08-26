@@ -7,6 +7,7 @@ import TreeView from '../../shared/treeview'
 import { mapCategoryToTreeNode, createHistoryJumper } from '../../helpers'
 
 
+import * as dealActions from '../../../state/ducks/deals/actions'
 import * as categoryActions from '../../../state/ducks/categories/actions'
 
 class Sidebar extends React.Component {
@@ -31,7 +32,7 @@ class Sidebar extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     const prevCategories = prevProps.categories;
     const currCategories = this.props.categories;
     if(!prevCategories && currCategories) {
@@ -42,10 +43,17 @@ class Sidebar extends React.Component {
   }
 
   onSelectTreeItem = item => {
-    const { basePath } = this.props;
-    //console.log('tree item selected: ', item);
-    const next = `${basePath}/list?c=${item.code}`;
-    this.jumper.jumpTo(next);
+
+    this.props.searchDeals({
+      category: item.code,
+      deleted: false,
+    })
+    .then(() => {
+      const { basePath } = this.props;
+      //console.log('tree item selected: ', item);
+      const next = `${basePath}/list`;
+      this.jumper.jumpTo(next);
+    })
   }
 
   render() {
@@ -72,6 +80,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  ...dealActions,
   ...categoryActions
 }
 

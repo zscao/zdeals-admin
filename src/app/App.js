@@ -15,12 +15,12 @@ import Login from './account/Login'
 
 const PortalLayout = ({ children }) => {
   return (
-    <>
+    <Container className="main-viewport" fluid>
       <Topbar />
-      <div className="mt-1">
+      <div className="main-container">
         {children}
       </div>
-    </>
+    </Container>
   )
 }
 
@@ -41,20 +41,18 @@ const PortalAccount = () => (<PortalLayout><Account /></PortalLayout>);
 
 const App = ({ baseUrl }) => {
   return (
-    <BrowserRouter basename={baseUrl}>
-      <Container fluid>
-        <Switch>
-          <Route exact path="/" component={FullPageLogin} />
-          <PrivateRoute path="/dashboard" component={PortalDashboard} />
-          <PrivateRoute path="/deals" component={PortalDeals} />
-          <PrivateRoute path="/stores" component={PortalStores} />
-          <PrivateRoute path="/account" component={PortalAccount} />
+    <BrowserRouter basename={baseUrl}>      
+      <Switch>
+        <Route exact path="/" component={FullPageLogin} />
+        <PrivateRoute path="/dashboard" component={PortalDashboard} />
+        <PrivateRoute path="/deals" component={PortalDeals} />
+        <PrivateRoute path="/stores" component={PortalStores} />
+        <PrivateRoute path="/account" component={PortalAccount} />
 
-          <Route path="/login" component={FullPageLogin} />
-          <Redirect to="/dashboard" />
-        </Switch>
-      </Container>
-    </BrowserRouter>
+        <Route path="/login" component={FullPageLogin} />
+        <Redirect to="/dashboard" />
+      </Switch>
+  </BrowserRouter>
   );
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -28,11 +29,13 @@ class CreateDeal extends React.Component {
 
   onButtonClick = button => {
     if (button.name === 'backToList') {
-      const path = this.props.location.pathname;
-      if(path) {
-        const up = this.jumper.pathUp(path);
-        if(up) this.jumper.jumpTo(up);
-      }
+      const list = '/deals/list';
+      this.jumper.jumpTo(list);
+      // const path = this.props.location.pathname;
+      // if (path) {
+      //   const up = this.jumper.pathUp(path);
+      //   if (up) this.jumper.jumpTo(up);
+      // }
     }
   }
 
@@ -44,7 +47,11 @@ class CreateDeal extends React.Component {
 
     return (
       <Page title="Create Deal" buttons={buttons} onButtonClick={this.onButtonClick}>
-        <CreateFrom onSubmit={this.submitForm} onCheckExistence={this.checkExistence} />
+        <Card>
+          <Card.Body>
+            <CreateFrom onSubmit={this.submitForm} onCheckExistence={this.checkExistence} />
+          </Card.Body>
+        </Card>
       </Page>
 
       // <ZPage title="Create Deal" buttons={buttons} onButtonClick={this.onButtonClick}>

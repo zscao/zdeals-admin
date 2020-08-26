@@ -10,10 +10,6 @@ import PictureForm from './PictureForm'
 import PictureUploader from './Uploader'
 
 
-const buttons = [
-  { name: 'newPicture', title: 'New Picture' }
-]
-
 export default function Pictures(props) {
 
   const [picture, setPicture] = useState();
