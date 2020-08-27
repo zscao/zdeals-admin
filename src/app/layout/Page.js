@@ -18,7 +18,7 @@ export default function Page(props) {
             <div>
               {Array.isArray(props.buttons) && props.buttons.map(b => {
                 const onClick = typeof(b.onClick) === 'function' ? b.onClick : (() => onButtonClick(b));
-                const variant = b.variant || 'light';
+                const variant = b.variant || 'info';
 
                 if(b.confirm) return (
                   <Confirm key={b.name} onConfirm={onClick} title={b.confirm.title} body={b.confirm.body}>

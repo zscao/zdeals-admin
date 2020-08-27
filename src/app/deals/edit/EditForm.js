@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Form, InputGroup, Button } from 'react-bootstrap';
+import {Row, Col, Form, InputGroup, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
 import Select from 'react-select';
@@ -62,7 +62,7 @@ function DealForm({ initValues, brands, onSubmit }) {
       const save = fullPrice - dealPrice;
       const discount = Math.round( (save / fullPrice) * 10000) / 100;
 
-      setDiscountItems([`Save $${save}`, `${discount}% off`]);
+      setDiscountItems([`< Save $${save}`, `< ${discount}% off`]);
     }
     else {
       setDiscountItems([]);
@@ -79,9 +79,9 @@ function DealForm({ initValues, brands, onSubmit }) {
 
   return (
     <Form onSubmit={handleSubmit(onFormSubmit)}>
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label">Source</Form.Label>
-        <div className="col-sm-10">
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Source</Form.Label>
+        <Col lg={10}>
           <InputGroup>
             <Form.Control
               type="text"
@@ -95,29 +95,29 @@ function DealForm({ initValues, brands, onSubmit }) {
             </InputGroup.Append>
             <FormErrorBlock error={errors.source} />
           </InputGroup>
-        </div>
+        </Col>
       </Form.Group>
 
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label">Title</Form.Label>
-        <div className="col-sm-10">
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Title</Form.Label>
+        <Col lg={10}>
           <Form.Control type="text" name="title" isInvalid={!!errors.title} placeholder="Title" ref={register(validation.title)} />
           <FormErrorBlock error={errors.title} />
-        </div>
+        </Col>
       </Form.Group>
 
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label">Highlight</Form.Label>
-        <div className="col-sm-10">
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Highlight</Form.Label>
+        <Col lg={10}>
           <Form.Control type="text" name="highlight" isInvalid={!!errors.highlight} placeholder="Highlight" ref={register(validation.highlight)} />
           <FormErrorBlock error={errors.highlight} />
-        </div>
+        </Col>
       </Form.Group>
 
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label">Deal Price</Form.Label>
-        <div className="col-sm-3">
-          <InputGroup className="md-3">
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Deal Price</Form.Label>
+        <Col lg={3}>
+          <InputGroup>
             <InputGroup.Prepend>
               <InputGroup.Text>$</InputGroup.Text>
             </InputGroup.Prepend>
@@ -125,13 +125,13 @@ function DealForm({ initValues, brands, onSubmit }) {
             <Form.Control type="number" name="dealPrice" isInvalid={!!errors.dealPrice} placeholder="0.00" ref={register(validation.dealPrice)} />
             <FormErrorBlock error={errors.dealPrice} />
           </InputGroup>
-        </div>
+        </Col>
       </Form.Group>
 
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label">Full Price</Form.Label>
-        <div className="col-sm-3">
-          <InputGroup className="md-3">
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Full Price</Form.Label>
+        <Col lg={3}>
+          <InputGroup lg={3}>
             <InputGroup.Prepend>
               <InputGroup.Text>$</InputGroup.Text>
             </InputGroup.Prepend>
@@ -139,49 +139,48 @@ function DealForm({ initValues, brands, onSubmit }) {
             <Form.Control type="number" name="fullPrice" isInvalid={!!errors.fullPrice} placeholder="0.00" onBlur={calculateDiscount} ref={register(validation.fullPrice)} />
             <FormErrorBlock error={errors.fullPrice} />
           </InputGroup>
-        </div>
+        </Col>
       </Form.Group>
 
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label">Discount</Form.Label>
-        <div className="col-sm-3">
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Discount</Form.Label>
+        <Col lg={3}>
           <Form.Control type="text" name="discount" placeholder="" ref={register(validation.discount)} />
-        </div>
-        <div className="col-sm-7">
-          {discountItems.map((item, index) => <Button variant="light" key={index} onClick={() => setValue('discount', item)}>{item}</Button>)}
-        </div>
+        </Col>
+        <Form.Text>
+          {discountItems.map((item, index) => <Button size="sm" variant="light" key={index} onClick={() => setValue('discount', item)}>{item}</Button>)}
+        </Form.Text>
       </Form.Group>
 
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label">Brand</Form.Label>
-        <div className="col-sm-3">
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Brand</Form.Label>
+        <Col lg={3}>
           {/* <Form.Control type="text" name="brand" placeholder="" ref={register(validation.brand)} /> */}
           <Select options={brandOptions} value={selectedBrand} onChange={setSelectedBrand} />
-        </div>
+        </Col>
       </Form.Group>
 
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label">Description</Form.Label>
-        <div className="col-sm-10">
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Description</Form.Label>
+        <Col lg={10}>
           <Form.Control as="textarea" name="description" rows="4" placeholder="" ref={register} />
-        </div>
+        </Col>
       </Form.Group>
 
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label">Published Date</Form.Label>
-        <div className="col-sm-3">
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Published Date</Form.Label>
+        <Col lg={3}>
           <Form.Control type="date" name="publishedDate" isInvalid={!!errors.publishedDate} placeholder="DD/MM/YYYY" ref={register(validation.publishedDate)} />
-          <div></div>
           <FormErrorBlock error={errors.publishedDate} />
-        </div>
+        </Col>
       </Form.Group>
 
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label">Expiry Date</Form.Label>
-        <div className="col-sm-3">
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Expiry Date</Form.Label>
+        <Col lg={3}>
           <Form.Control type="date" name="expiryDate" isInvalid={!!errors.expiryDate} placeholder="DD/MM/YYYY" ref={register} />
           <FormErrorBlock error={errors.expiryDate} />
-        </div>
+        </Col>
       </Form.Group>
 
       <div className="form-buttons">

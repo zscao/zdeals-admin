@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Form, Button } from 'react-bootstrap'
+import { Row, Col, Form, Button } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 
 import { FormErrorBlock } from '../../../shared'
@@ -19,37 +19,31 @@ export default function PictureForm(props) {
 
   return (
     <Form onSubmit={handleSubmit(onFormSubmit)}>
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label">File Name</Form.Label>
-        <div className="col-sm-10">
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>File Name</Form.Label>
+        <Col lg={10}>
           <Form.Control type="text" name="fileName" placeholder="" ref={register} readOnly />
-        </div>
+        </Col>
       </Form.Group>
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label">Title</Form.Label>
-        <div className="col-sm-10">
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Title</Form.Label>
+        <Col lg={10}>
           <Form.Control type="text" name="title" isInvalid={!!errors.title} placeholder="" ref={register(validation.title)} />
           <FormErrorBlock error={errors.title}/>
-        </div>
+        </Col>
       </Form.Group>
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label">Alt</Form.Label>
-        <div className="col-sm-10">
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Alt</Form.Label>
+        <Col lg={10}>
           <Form.Control type="text" name="alt" isInvalid={!!errors.alt} placeholder="" ref={register(validation.alt)} />
           <FormErrorBlock error={errors.alt} />
-        </div>
+        </Col>
       </Form.Group>
-      <Form.Group className="row">
-        <Form.Label className="col-sm-2 col-form-label"></Form.Label>
-        <div className="col-sm-10">
-          <div className="form-check">
-            <label className="form-check-label">
-              <input type="checkbox" name="isDefaultPicture" className="form-check-input" ref={register} />
-              <i className="input-helper"></i>
-              Set as default picture
-            </label>
-          </div>
-        </div>
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}></Form.Label>
+        <Col lg={10}>
+          <Form.Check type="checkbox" name="isDefaultPicture" label="Set as default picture" ref={register} />
+        </Col>
       </Form.Group>
 
       <div className="form-buttons">

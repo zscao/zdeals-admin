@@ -31,7 +31,7 @@ export default function List(props) {
             <td>{pic.title}</td>
             <td>{pic.isDefaultPicture ? 'YES' : ''}</td>
             <td>
-              <Button variant="info" size="sm" onClick={() => editPicture(pic)}>Edit</Button>
+              <Button variant="primary" size="sm" onClick={() => editPicture(pic)}>Edit</Button>
             </td>
           </tr>))}
       </tbody>
