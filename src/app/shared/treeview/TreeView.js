@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListGroup, Collapse } from 'react-bootstrap'
+import { Form, ListGroup, Collapse } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleRight, faAngleDown, faMinus, faFolder, faFolderOpen, faFile } from '@fortawesome/free-solid-svg-icons'
 
@@ -12,10 +12,6 @@ export class TreeView extends React.Component {
   constructor(props) {
     super(props);
     this.model = new DataModel(props.data, props.expandLevel);
-
-    this.state = {
-      refresh: false
-    }
   }
 
   componentDidMount() {
@@ -28,6 +24,9 @@ export class TreeView extends React.Component {
       //console.log('open status changed: ', item);
       this.forceUpdate();
     })
+    this.model.addEventListener('toggleCheck', item => {
+      this.forceUpdate();
+    })
   }
 
   componentDidUpdate(prevProps) {
@@ -35,24 +34,56 @@ export class TreeView extends React.Component {
     const prevData = prevProps.data;
     const currData = this.props.data;
 
+    if(!(prevData || currData)) return;
+
     if((!prevData && currData) || (prevData && !currData) || (prevData.length !== currData.length)) {
       this.model.resetData(currData);
       this.forceUpdate();
     }
   }
 
-  selectItem = key => {
-    const selected = this.model.selectItem(key);
+    // public functions
+    getCheckedItems = () => {
+      const checked = this.model.getCheckedItems();
+      if(!Array.isArray(checked)) return null;
+  
+      return checked.map(x => x.data);
+    }
+  
+    setCheckedItems = items => {
+      const checked = this.model.setCheckedItems(items);
+      if(!Array.isArray(checked)) return null;
+      this.forceUpdate();
+    }
+  
+    setData = data => {
+      this.model.resetData(data);
+      this.forceUpdate();
+    }
+
+    // end public functions
+
+  selectItem = item => {
+    const selected = this.model.selectItem(item.key);
     if(selected && typeof(this.props.onSelectItem) === 'function') 
       this.props.onSelectItem(selected.data);
   }
 
-  toggleOpenStatus = key => {
-    this.model.toggleOpenStatus(key);
+  toggleCheckStatus = item => {
+    const toggled = this.model.toggleCheckStatus(item.key);
+    if(toggled && typeof(this.props.onCheckItem) === 'function') {
+      this.props.onCheckItem(toggled.data);
+    }
+  }
+
+  toggleOpenStatus = item => {
+    this.model.toggleOpenStatus(item.key);
   }
 
   renderListGroup = items => {
     if (!Array.isArray(items)) return null;
+
+    const { selectRow, showCheckbox, showIcon } = this.props;
 
     return (
       <ListGroup className="list-group-root">
@@ -61,20 +92,22 @@ export class TreeView extends React.Component {
           return item.children
           ? (
             <React.Fragment key={item.key}>
-              <ListGroup.Item  active={item.active}>
-                <FontAwesomeIcon icon={item.open ? faAngleDown : faAngleRight} className="expander" onClick={() => this.toggleOpenStatus(item.key)} />
-                <FontAwesomeIcon icon={item.open ? faFolderOpen : faFolder} className="folder" />
-                <span onClick={() => this.selectItem(item.key)}>{item.title}</span>
+              <ListGroup.Item className={selectRow ? 'select-row' : ''}  active={item.active}>
+                <FontAwesomeIcon icon={item.open ? faAngleDown : faAngleRight} className="expander" onClick={() => this.toggleOpenStatus(item)} />
+                { showIcon && <FontAwesomeIcon icon={item.open ? faFolderOpen : faFolder} className="folder" />}
+                { showCheckbox && <Form.Check type="checkbox" aria-label="" checked={item.checked} onChange={e => this.toggleCheckStatus(item)} />} 
+                <span onClick={() => this.selectItem(item)}>{item.title}</span>
               </ListGroup.Item>
               <Collapse in={item.open}>
                 {this.renderListGroup(item.children)}
               </Collapse>
             </React.Fragment>
           ) : (
-            <ListGroup.Item key={item.key} active={item.active}>
+            <ListGroup.Item className={selectRow ? 'select-row' : ''} key={item.key} active={item.active}>
               <FontAwesomeIcon icon={faMinus} className="placeholder" />
-              <FontAwesomeIcon icon={faFile} className="file" />
-              <span onClick={() => this.selectItem(item.key)}>{item.title}</span>
+              { showIcon && <FontAwesomeIcon icon={faFile} className="file" />} 
+              { showCheckbox && <Form.Check type="checkbox" aria-label="" checked={item.checked} onChange={e => this.toggleCheckStatus(item)} />}
+              <span onClick={() => this.selectItem(item)}>{item.title}</span>
             </ListGroup.Item>
           )
         })}
@@ -83,6 +116,9 @@ export class TreeView extends React.Component {
   }
 
   render() {
-    return this.renderListGroup(this.model.getData());
+    const data = this.model.getData();
+    //console.log('Data: ', data);
+
+    return this.renderListGroup(data);
   }
 }

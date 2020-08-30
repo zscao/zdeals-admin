@@ -20,11 +20,14 @@ export default function Uploader(props) {
 
     pictureActions.uploadPicture('deals', file, onUploadProgress)
       .then(response => {
+        setLoading(false);
+        setProgress({ state: 'done', percentage: 100 });
+
         if (response.fileName) {
           if(typeof(props.onPictureUploaded) === 'function') props.onPictureUploaded(response);
         }
       })
-      .finally(() => {
+      .catch(() => {
         setLoading(false);
         setProgress({ state: 'done', percentage: 100 });
       });

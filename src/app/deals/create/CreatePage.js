@@ -21,6 +21,14 @@ class CreateDeal extends React.Component {
   jumper = createHistoryJumper(this.props.history);
 
   submitForm = values => {
+    const query = this.props.deals.query;
+    if(query && query.category) {
+      values = {
+        ...values,
+        category: query.category
+      }
+    }
+
     this.props.createDeal(values).then(response => {
       const next = `/deals/edit/${response.id}`;
       this.jumper.jumpTo(next);

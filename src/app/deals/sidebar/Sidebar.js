@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import { Row, Col, Button } from 'react-bootstrap'
 
-import TreeView from '../../shared/treeview'
+import { TreeView } from '../../shared'
 import { mapCategoryToTreeNode, createHistoryJumper } from '../../helpers'
 
 
@@ -68,7 +68,7 @@ class Sidebar extends React.Component {
           </Col>
         </Row>
 
-        <TreeView data={this.state.nodes} expandLevel={1} onSelectItem={this.onSelectTreeItem} />
+        <TreeView data={this.state.nodes} expandLevel={1} onSelectItem={this.onSelectTreeItem} selectRow showIcon />
 
       </>
     )

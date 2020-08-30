@@ -8,9 +8,11 @@ import { createHistoryJumper } from '../../helpers/routeHelper';
 
 import * as dealActions from '../../../state/ducks/deals/actions';
 import * as brandActions from '../../../state/ducks/brands/actions';
+// import * as categoryActions from '../../../state/ducks/categories/actions';
 
 import EditForm from './EditForm';
 import DealPictures from './pictures';
+import DealCategories from './categories';
 
 const buttons = {
   backToList: {
@@ -43,17 +45,15 @@ class EditDeal extends React.Component {
 
   state = {
     deal: null, // the current deal
-    pictures: [], // the picture list of the current deal
-    categories: [], // the category list of the current deal
-    category: null, // the category tree in the app
-    categoryList: [], // the category list in the app
+    dealPictures: [], // the picture list of the current deal
+    dealCategories: [], // the category list of the current deal
 
     tabKey: 'details',
   };
 
   componentDidMount() {
 
-    const { match } = this.props;
+    const { match, brand } = this.props;
     const id = match.params.id;
 
     if (id) {
@@ -62,9 +62,11 @@ class EditDeal extends React.Component {
       })
     }
 
-    const brandResult = this.props.brands;
-    if(!brandResult || !Array.isArray(brandResult.data))
+    if(!brand || !Array.isArray(brand.data))
       this.props.searchBrands();
+
+    // if(!category)
+    //   this.props.getCategoryTree();
   }
 
   submitDealForm = (values) => {
@@ -102,7 +104,7 @@ class EditDeal extends React.Component {
 
     this.props.getDealPictures(deal.id).then(response => {
       this.setState({
-        pictures: response && Array.isArray(response.data) ? response.data : []
+        dealPictures: response && Array.isArray(response.data) ? response.data : []
       })
     })
   }
@@ -116,6 +118,22 @@ class EditDeal extends React.Component {
     })
   }
 
+  submitCategoryForm = values => {
+    //console.log('categories: ', values);
+
+    const deal = this.state.deal;
+    if (!deal || !deal.id) return;
+
+    const data = {
+      categories: values.map(x => x.id)
+    }
+
+    this.props.saveDealCategories(deal.id, data).then(response => {
+      if (Array.isArray(response.data))
+        this.setState({ dealCategories: response.data })
+    })
+  }
+
   selectTab = key => {
 
     const deal = this.state.deal;
@@ -123,8 +141,15 @@ class EditDeal extends React.Component {
 
     this.setState({ tabKey: key });
 
-    if (key === 'pictures' && !this.state.pictures.length) {
+    if (key === 'pictures' && !this.state.dealPictures.length) {
       this.getDealPictures();
+    }
+    else if(key === 'categories' && !this.state.dealCategories.length) {
+      this.props.getDealCategories(deal.id).then(response => {
+        this.setState({
+          dealCategories: response && Array.isArray(response.data) ? response.data : []
+        })
+      })
     }
 
   }
@@ -166,6 +191,8 @@ class EditDeal extends React.Component {
     const brandResult = this.props.brands;
     const brands = brandResult && Array.isArray(brandResult.data) ? brandResult.data : [];
 
+    const category = this.props.category;
+
     return (
       <Page title="Edit Deal" buttons={btns}>
         <Tabs activeKey={this.state.tabKey} onSelect={this.selectTab}>
@@ -177,7 +204,14 @@ class EditDeal extends React.Component {
             </Card>
           </Tab>
           <Tab eventKey="pictures" title="Pictures">
-            <DealPictures pictures={this.state.pictures} onPictureFormSubmit={this.submitPictureForm} />
+            <DealPictures pictures={this.state.dealPictures} onPictureFormSubmit={this.submitPictureForm} />
+          </Tab>
+          <Tab eventKey="categories" title="Categories">
+            <Card className="tab-content">
+              <Card.Body>
+                <DealCategories category={category} dealCategories={this.state.dealCategories} onSubmit={this.submitCategoryForm} />
+              </Card.Body>
+            </Card>
           </Tab>
         </Tabs>
       </Page>
@@ -188,11 +222,13 @@ class EditDeal extends React.Component {
 const mapStateToProps = state => ({
   deals: state.deals.search,
   brands: state.brands.search.result,
+  category: state.categories.tree.result,
 })
 
 const mapDispatchToProps = {
   ...dealActions,
-  ...brandActions
+  ...brandActions,
+  // ...categoryActions,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EditDeal));

@@ -25,12 +25,12 @@ class DealList extends React.Component {
   jumper = createHistoryJumper(this.props.history);
 
   componentDidMount() {
-    const dealData = _.get(this.props, 'deals.search.result.data');
+    const dealData = _.get(this.props.deals, 'result.data');
     if(!dealData) this.searchDeals({
       deleted: false
     });
 
-    const storeData = _.get(this.props, 'stores.search.result.data');
+    const storeData = _.get(this.props.stores, 'data');
     if(!storeData) this.props.searchStores();
   }
 
@@ -45,7 +45,7 @@ class DealList extends React.Component {
   }
 
   filterDeals = values => {
-    let query = _.get(this.props, 'deals.search.query');
+    let query = this.props.deals.query;
     query = {
       ...query,
       ...values,
@@ -62,7 +62,7 @@ class DealList extends React.Component {
   }
 
   gotoPage = page => {
-    let query = _.get(this.props, 'deals.search.query');
+    let query = this.props.deals.query;
     query = {
       ...query,
       pageNumber: page
@@ -76,9 +76,9 @@ class DealList extends React.Component {
 
   render() {
 
-    const storeData = _.get(this.props, 'stores.search.result.data') || [];
-    const searchResult = _.get(this.props, 'deals.search.result') || {};
-    const query = _.get(this.props, 'deals.search.query') || {}; 
+    const storeData = _.get(this.props.stores, 'data') || [];
+    const searchResult = this.props.deals.result || {};
+    const query = this.props.deals.query || {}; 
 
     return (
       <Page title="Deals List" buttons={buttons} onButtonClick={this.onButtonClick}>
@@ -99,8 +99,8 @@ class DealList extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  deals: state.deals,
-  stores: state.stores,
+  deals: state.deals.search,
+  stores: state.stores.search.result,
 });
 
 const mapDispatchToProps = {

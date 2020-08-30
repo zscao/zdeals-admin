@@ -4,6 +4,7 @@ import TreeNodes from './TreeNodes'
 const EventNames = {
   SelectItem: 'selectItem',
   ToggleOpen: 'toggleOpen',
+  ToggleCheck: 'toggleCheck',
 }
 
 
@@ -39,7 +40,17 @@ export default function DataModel(data = [], expandLevel = 0) {
         listners.forEach(f => f.callback(toggled));
       }
     }
+    return toggled;
+  }
 
+  function toggleCheckStatus(key) {
+    const toggled = _nodes.toggleCheckStatus(key);
+    if(toggled) {
+      const listners = _listeners.searchEventListeners(EventNames.ToggleCheck);
+      if(listners.length > 0) {
+        listners.forEach(f => f.callback(toggled));
+      }
+    }
     return toggled;
   }
 
@@ -50,6 +61,14 @@ export default function DataModel(data = [], expandLevel = 0) {
 
   function getData() {
     return _nodes.getData();
+  }
+
+  function getCheckedItems() {
+    return _nodes.getCheckedItems();
+  }
+
+  function setCheckedItems(items) {
+    return _nodes.setCheckedItems(items);
   }
 
   function addEventListener(event, callback) {
@@ -75,9 +94,12 @@ export default function DataModel(data = [], expandLevel = 0) {
 
   return Object.freeze({
     getData,
-    resetData: resetData,
+    resetData,
     selectItem,
     toggleOpenStatus,
+    toggleCheckStatus,
+    getCheckedItems,
+    setCheckedItems,
     addEventListener,
     removeEventListener,
     removeEventListeners

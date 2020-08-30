@@ -52,7 +52,7 @@ function DealForm(props) {
 
 
   return (
-    <Form onSubmit={handleSubmit(onFormSubmit)} autoComplete={false}>
+    <Form onSubmit={handleSubmit(onFormSubmit)} AutoComplete={false}>
       <Form.Group as={Row}>
         <Form.Label column lg={2}>Source</Form.Label>
         <Col lg={10}>
