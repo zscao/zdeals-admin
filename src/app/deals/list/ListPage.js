@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 
-import { Pagination } from '../../shared';
+import { PageBar } from '../../shared';
 import { Page } from '../../layout'
 import DealListView from './ListView';
 
@@ -39,9 +39,13 @@ class DealList extends React.Component {
   }
 
   deleteDeal = deal => {
-    if (!deal || !deal.id) return;
+    if (!deal || !deal.id) return Promise.resolve();
 
-    this.props.deleteDeal(deal.id);
+    return this.props.deleteDeal(deal.id)
+    .then(response => {
+      this.forceUpdate();
+      return response;
+    });
   }
 
   filterDeals = values => {
@@ -90,7 +94,7 @@ class DealList extends React.Component {
         <Card>
           <Card.Body>
             <DealListView deals={searchResult} onEditDeal={this.editDeal} onDeleteDeal={this.deleteDeal} />
-            <Pagination className="mt-2" {...searchResult} onGotoPage={this.gotoPage} />
+            <PageBar className="mt-2" {...searchResult} onGotoPage={this.gotoPage} />
           </Card.Body>
         </Card>
       </Page>

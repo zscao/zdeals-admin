@@ -1,10 +1,12 @@
-import React from 'react'
-import { Button, Table } from 'react-bootstrap'
+import React, {useState } from 'react'
+import { Button, Table, Spinner } from 'react-bootstrap'
 import moment from 'moment'
 
 import { Confirm } from '../../shared'
 
 function DealListView(props) {
+
+  const [deleting, setDeleting ] = useState(0);
 
   const data = (props.deals && Array.isArray(props.deals.data)) ? props.deals.data : []
 
@@ -13,7 +15,13 @@ function DealListView(props) {
   }
 
   function deleteDeal(deal) {
-    if(typeof props.onDeleteDeal === 'function') props.onDeleteDeal(deal);
+    if(typeof props.onDeleteDeal === 'function') {
+      setDeleting(deal.id);
+      props.onDeleteDeal(deal)
+      .finally(() => {
+        setDeleting(0);
+      });
+    }
   }
 
   return (
@@ -40,7 +48,7 @@ function DealListView(props) {
               onConfirm={() => deleteDeal(deal)}
               title="Deleting Deal"
               body="Are you sure you want to delete this deal?">
-              <Button size="sm" className="mx-1" variant="danger">Delete</Button>
+              <Button size="sm" className="mx-1" variant="danger" disabled={deleting === deal.id} >{ deleting === deal.id ? <Spinner size="sm" animation="grow" /> : 'Delete' }</Button>
             </Confirm>}
           </td>
         </tr>))}

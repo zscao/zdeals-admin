@@ -36,3 +36,13 @@ body {
 .clickable {
   cursor: pointer;
 }
+
+td > button {
+  width: 64px;
+}
+
+.form-buttons {
+  button {
+    width: 100px;
+  }
+}

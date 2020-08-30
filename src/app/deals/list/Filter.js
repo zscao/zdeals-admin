@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import _ from 'lodash';
 import Select from 'react-select';
 
 import { Col, Form, Button } from 'react-bootstrap';
@@ -15,7 +14,7 @@ export default function Filter({initValues, stores, onSubmit}) {
   const [storeOptions, setStoreOptions] = useState([]);
   const [selectedStore, setSelectedStore] = useState(defaultStore);
 
-  const { register, handleSubmit, reset, errors } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   useEffect(() => {
 

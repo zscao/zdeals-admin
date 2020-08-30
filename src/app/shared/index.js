@@ -1,4 +1,4 @@
 export * from './FormErrorBlock'
 export * from './Confirm'
-export * from './Pagination'
+export * from './PageBar'
 export { default as TreeView } from './treeview'

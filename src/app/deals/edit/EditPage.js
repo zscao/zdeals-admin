@@ -71,9 +71,10 @@ class EditDeal extends React.Component {
 
   submitDealForm = (values) => {
     const deal = this.state.deal;
-    if (!deal || !deal.id) return;
+    if (!deal || !deal.id) return Promise.resolve();
 
-    this.props.updateDeal(deal.id, values).then(response => {
+    return this.props.updateDeal(deal.id, values)
+    .then(response => {
       this.setState({
         deal: response
       })

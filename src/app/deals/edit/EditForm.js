@@ -16,6 +16,7 @@ function DealForm({ initValues, brands, onSubmit }) {
   const [discountItems, setDiscountItems] = useState([]);
   const [brandOptions, setBrandOptions] = useState([]);
   const [selectedBrand, setSelectedBrand] = useState();
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const values = _.cloneDeep(initValues);
@@ -50,7 +51,9 @@ function DealForm({ initValues, brands, onSubmit }) {
       values.brand = selectedBrand.value;
     }
 
-    onSubmit(values);
+    setSubmitting(true);
+    onSubmit(values).finally(() => setSubmitting(false));
+
   }, [onSubmit, selectedBrand])
 
   const calculateDiscount = useCallback(() => {
@@ -184,7 +187,7 @@ function DealForm({ initValues, brands, onSubmit }) {
       </Form.Group>
 
       <div className="form-buttons">
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={submitting}>{ submitting ? 'Saving' : 'Save' }</Button>
       </div>
     </Form>
   )

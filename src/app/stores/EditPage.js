@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { Row, Col, Card } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 
 import { Page } from '../layout'
 import StoreFrom from './StoreForm'

@@ -72,7 +72,7 @@ export default function DataModel(data = [], expandLevel = 0) {
   }
 
   function addEventListener(event, callback) {
-    if(typeof(event) !== 'string' || typeof(callback) !== 'function') throw "Invalid parameters";
+    if(typeof(event) !== 'string' || typeof(callback) !== 'function') throw new Error("Invalid parameters");
 
     var names = Object.values(EventNames);
     if(names.indexOf(event) < 0) {
