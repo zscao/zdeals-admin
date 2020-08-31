@@ -6,7 +6,7 @@ import { Col, Form, Button } from 'react-bootstrap';
 
 const defaultStore = {
   label: 'All Stores',
-  value: 0
+  value: undefined
 };
 
 export default function Filter({initValues, stores, onSubmit}) {
@@ -38,10 +38,7 @@ export default function Filter({initValues, stores, onSubmit}) {
 
   function onFormSubmit(values) {
     if (typeof onSubmit !== 'function') return;
-
-     if(selectedStore.value) {
-      values.store = selectedStore.value;
-    }
+    values.store = selectedStore.value;
     onSubmit(values);
   }
 

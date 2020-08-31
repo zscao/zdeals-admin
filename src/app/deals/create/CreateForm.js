@@ -85,7 +85,7 @@ function DealForm(props) {
       </Form.Group>
 
       <div className="form-buttons">
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Save</Button>
       </div>
     </Form>
   )

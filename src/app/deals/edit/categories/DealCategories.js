@@ -38,7 +38,7 @@ export default function Categories({category, dealCategories, onSubmit}) {
       </Col>
       <Col className="d-flex align-items-end flex-column">
         <div className="form-buttons mt-auto">
-          <Button type="button" onClick={onFormSubmit}>Submit</Button>
+          <Button type="button" onClick={onFormSubmit}>Save</Button>
         </div>
       </Col>
     </Row>
