@@ -14,9 +14,11 @@ export default function Filter({initValues, stores, onSubmit}) {
   const [storeOptions, setStoreOptions] = useState([]);
   const [selectedStore, setSelectedStore] = useState(defaultStore);
 
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, setValue } = useForm();
 
   useEffect(() => {
+
+    //console.log('init values: ', initValues);
 
     if (Array.isArray(stores)) {
       
@@ -42,6 +44,15 @@ export default function Filter({initValues, stores, onSubmit}) {
     onSubmit(values);
   }
 
+  function onCheckDeleted(checked) {
+    //console.log('value of deleted:', checked);
+    if(checked) setValue('verified', undefined);
+  }
+
+  function onCheckVerified(value) {
+    setValue('deleted', false);
+  }
+
   return (
     <Form onSubmit={handleSubmit(onFormSubmit)}>
       <Form.Row>
@@ -54,8 +65,9 @@ export default function Filter({initValues, stores, onSubmit}) {
         </Col>
         <Col lg="auto" className="form-inline">
           {/* <Form.Check className="mr-2" type="radio" name="verified" label="All" value="" ref={register} /> */}
-          <Form.Check className="mr-2" type="radio" name="verified" label="Verified" value="true" ref={register} />
-          <Form.Check className="mr-2" type="radio" name="verified" label="NOT Verified" value="false" ref={register} />
+          <Form.Check className="mr-2" type="radio" name="verified" label="Verified" value="true" ref={register} onChange={e => onCheckVerified(e.target.value)} />
+          <Form.Check className="mr-2" type="radio" name="verified" label="NOT Verified" value="false" ref={register} onChange={e => onCheckVerified(e.target.value)} />
+          <Form.Check className="mr-2" type="checkbox" name="deleted" label="Deleted" ref={register} onChange={e => onCheckDeleted(e.target.checked)} />
         </Col>
         <Col lg="auto">
           <Button type="submit" variant="success">Filter</Button>

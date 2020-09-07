@@ -31,7 +31,7 @@ function DealListView(props) {
           <th>ID</th>
           <th>Title</th>
           <th>Store</th>
-          <th>Verified</th>
+          <th>Status</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -40,7 +40,11 @@ function DealListView(props) {
           <td>{deal.id}</td>
           <td className="text-overflow" style={{ width: '50%' }}>{deal.title}</td>
           <td>{deal.store && deal.store.name}</td>
-          <td>{deal.verifiedTime ? <span>{deal.verifiedBy}<br/>{moment(deal.verifiedTime).format('DD/MM/YYYY h:mm A')}</span> : ''}</td>
+          <td>{deal.deleted 
+              ? <span>Deleted<br/>{moment(deal.deletedTime).format('DD/MM/YYYY h:mm A')}</span>
+              : deal.verified
+              ? <span>Verified by {deal.verifiedBy}<br/>{moment(deal.verifiedTime).format('DD/MM/YYYY h:mm A')}</span> : ''}
+          </td>
           <td>
             <Button size="sm" className="mx-1" variant="primary" onClick={() => editDeal(deal)}>Edit</Button>
 

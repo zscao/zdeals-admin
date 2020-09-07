@@ -65,7 +65,7 @@ function DealForm({ initValues, brands, onSubmit }) {
       const save = fullPrice - dealPrice;
       const discount = Math.round( (save / fullPrice) * 10000) / 100;
 
-      setDiscountItems([`< Save $${save}`, `< ${discount}% off`]);
+      setDiscountItems([`Save $${save}`, `${discount}% off`]);
     }
     else {
       setDiscountItems([]);
@@ -153,6 +153,12 @@ function DealForm({ initValues, brands, onSubmit }) {
         <Form.Text>
           {discountItems.map((item, index) => <Button size="sm" variant="light" key={index} onClick={() => setValue('discount', item)}>{item}</Button>)}
         </Form.Text>
+      </Form.Group>
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Delivery</Form.Label>
+        <Col lg={3} className="d-flex align-items-center">
+          <Form.Check type="checkbox" name="freeShipping" label="Free Shipping" ref={register} />
+        </Col>
       </Form.Group>
 
       <Form.Group as={Row}>

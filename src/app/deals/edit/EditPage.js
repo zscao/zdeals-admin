@@ -36,6 +36,15 @@ const buttons = {
       title: 'Confirmation',
       body: 'Are you sure to delete the deal?'
     }
+  },
+  recycle: {
+    name: 'recycle',
+    title: 'Recycle',
+    variant: 'warning',
+    confirm: {
+      title: 'Confirmation',
+      body: 'Confirm to recycle the deleted deal.'
+    }
   }
 }
 
@@ -85,18 +94,20 @@ class EditDeal extends React.Component {
     const deal = this.state.deal;
     if (!deal || !deal.id) return;
 
-    this.props.verifyDeal(deal.id).then(response => {
-      this.goBack();
-    })
+    this.props.verifyDeal(deal.id).then(() => this.goBack());
   }
 
   deleteDeal = () => {
     const deal = this.state.deal;
     if (!deal || !deal.id) return;
 
-    this.props.deleteDeal(deal.id).then(response => {
-      this.goBack();
-    });
+    this.props.deleteDeal(deal.id).then(() => this.goBack());
+  }
+
+  recycleDeal = () => {
+    const deal = this.state.deal;
+    if(!deal || !deal.id) return;
+     this.props.recycleDeal(deal.id).then(response => this.setState({deal: response}));
   }
 
   getDealPictures = () => {
@@ -172,15 +183,24 @@ class EditDeal extends React.Component {
     }];
 
     if (this.state.deal) {
+      const deal = this.state.deal;
+      if(deal.deleted) {
         result.push({
-        ...buttons.delete,
-        onClick: this.deleteDeal
-      });
+          ...buttons.recycle,
+          onClick: this.recycleDeal
+        })
+      }
+      else {
+          result.push({
+          ...buttons.delete,
+          onClick: this.deleteDeal
+        });
 
-      if (!this.state.deal.verifiedTime) result.push({
-        ...buttons.verify,
-        onClick: this.verifyDeal
-      });
+        if (!deal.verified) result.push({
+          ...buttons.verify,
+          onClick: this.verifyDeal
+        });
+      }
     }
     return result;
   }
