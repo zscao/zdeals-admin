@@ -65,7 +65,7 @@ function DealForm({ initValues, brands, onSubmit }) {
       const save = fullPrice - dealPrice;
       const discount = Math.round( (save / fullPrice) * 10000) / 100;
 
-      setDiscountItems([`< Save $${save}`, `< ${discount}% off`]);
+      setDiscountItems([`Save $${save}`, `${discount}% off`]);
     }
     else {
       setDiscountItems([]);
@@ -125,7 +125,14 @@ function DealForm({ initValues, brands, onSubmit }) {
               <InputGroup.Text>$</InputGroup.Text>
             </InputGroup.Prepend>
 
-            <Form.Control type="number" name="dealPrice" isInvalid={!!errors.dealPrice} placeholder="0.00" ref={register(validation.dealPrice)} />
+            <Form.Control 
+              type="number" step={0.01} 
+              name="dealPrice" 
+              isInvalid={!!errors.dealPrice} 
+              placeholder="0.00" 
+              ref={register(validation.dealPrice)} 
+              onFocus={e => e.target.select()}
+            />
             <FormErrorBlock error={errors.dealPrice} />
           </InputGroup>
         </Col>
@@ -139,7 +146,13 @@ function DealForm({ initValues, brands, onSubmit }) {
               <InputGroup.Text>$</InputGroup.Text>
             </InputGroup.Prepend>
 
-            <Form.Control type="number" name="fullPrice" isInvalid={!!errors.fullPrice} placeholder="0.00" onBlur={calculateDiscount} ref={register(validation.fullPrice)} />
+            <Form.Control 
+              type="number" step={0.01} 
+              name="fullPrice" isInvalid={!!errors.fullPrice} 
+              placeholder="0.00" 
+              onFocus={e => e.target.select()}
+              onBlur={calculateDiscount} ref={register(validation.fullPrice)} 
+            />
             <FormErrorBlock error={errors.fullPrice} />
           </InputGroup>
         </Col>
@@ -153,6 +166,12 @@ function DealForm({ initValues, brands, onSubmit }) {
         <Form.Text>
           {discountItems.map((item, index) => <Button size="sm" variant="light" key={index} onClick={() => setValue('discount', item)}>{item}</Button>)}
         </Form.Text>
+      </Form.Group>
+      <Form.Group as={Row}>
+        <Form.Label column lg={2}>Delivery</Form.Label>
+        <Col lg={3} className="d-flex align-items-center">
+          <Form.Check type="checkbox" name="freeShipping" label="Free Shipping" ref={register} />
+        </Col>
       </Form.Group>
 
       <Form.Group as={Row}>
