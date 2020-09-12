@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Select from 'react-select';
 
-import { Col, Form, Button } from 'react-bootstrap';
+import { Col, Form, Button, Spinner } from 'react-bootstrap';
 
 const defaultStore = {
   label: 'All Stores',
@@ -13,6 +13,7 @@ export default function Filter({initValues, stores, onSubmit}) {
 
   const [storeOptions, setStoreOptions] = useState([]);
   const [selectedStore, setSelectedStore] = useState(defaultStore);
+  const [loading, setLoading] = useState(false);
 
   const { register, handleSubmit, reset, setValue } = useForm();
 
@@ -41,7 +42,11 @@ export default function Filter({initValues, stores, onSubmit}) {
   function onFormSubmit(values) {
     if (typeof onSubmit !== 'function') return;
     values.store = selectedStore.value;
-    onSubmit(values);
+    const result = onSubmit(values);
+    if(result instanceof Promise) {
+      setLoading(true);
+      result.finally(() => setLoading(false));
+    }
   }
 
   function onCheckDeleted(checked) {
@@ -70,7 +75,7 @@ export default function Filter({initValues, stores, onSubmit}) {
           <Form.Check className="mr-2" type="checkbox" name="deleted" label="Deleted" ref={register} onChange={e => onCheckDeleted(e.target.checked)} />
         </Col>
         <Col lg="auto">
-          <Button type="submit" variant="success">Filter</Button>
+          <Button className="min100" type="submit" variant="success" disabled={loading}>{loading && <Spinner animation="grow" size="sm" />} Filter</Button>
         </Col>
       </Form.Row>
 

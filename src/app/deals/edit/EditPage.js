@@ -1,18 +1,18 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import React from 'react'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { Tabs, Tab, Card } from 'react-bootstrap'
 
 import Page from '../../layout/Page'
-import { createHistoryJumper } from '../../helpers/routeHelper';
+import { createHistoryJumper } from '../../helpers/routeHelper'
 
-import * as dealActions from '../../../state/ducks/deals/actions';
-import * as brandActions from '../../../state/ducks/brands/actions';
-// import * as categoryActions from '../../../state/ducks/categories/actions';
+import * as dealActions from '../../../state/ducks/deals/actions'
+import * as brandActions from '../../../state/ducks/brands/actions'
 
-import EditForm from './EditForm';
-import DealPictures from './pictures';
-import DealCategories from './categories';
+import EditForm from './EditForm'
+import DealPictures from './pictures'
+import DealCategories from './categories'
+import { LoadingBar } from '../../shared'
 
 const buttons = {
   backToList: {
@@ -58,34 +58,38 @@ class EditDeal extends React.Component {
     dealCategories: [], // the category list of the current deal
 
     tabKey: 'details',
+    loading: null,
   };
 
   componentDidMount() {
 
-    const { match, brand } = this.props;
+    const { match, brands } = this.props;
     const id = match.params.id;
 
     if (id) {
+      this.setState({loading: 'get'});
       this.props.getDealById(id).then(response => {
-        this.setState({ deal: response })
+        this.setState({ deal: response, loading: null })
+      })
+      .catch(() =>{
+        this.setState({loading: null})
       })
     }
 
-    if(!brand || !Array.isArray(brand.data))
+    if(!brands || !Array.isArray(brands.data))
       this.props.searchBrands();
-
-    // if(!category)
-    //   this.props.getCategoryTree();
   }
 
   submitDealForm = (values) => {
     const deal = this.state.deal;
     if (!deal || !deal.id) return Promise.resolve();
 
+    this.setState({loading: 'update'})
     return this.props.updateDeal(deal.id, values)
     .then(response => {
       this.setState({
-        deal: response
+        deal: response,
+        loading: null,
       })
     })
   }
@@ -94,30 +98,72 @@ class EditDeal extends React.Component {
     const deal = this.state.deal;
     if (!deal || !deal.id) return;
 
-    this.props.verifyDeal(deal.id).then(() => this.goBack());
+    this.setState({loading: buttons.verify.name});
+    this.props.verifyDeal(deal.id)
+    .then(() => {
+      this.setState({loading: null});
+      this.goBack();
+    })
+    .catch(() => {
+      this.setState({loading: null});
+    })
   }
 
   deleteDeal = () => {
     const deal = this.state.deal;
     if (!deal || !deal.id) return;
 
-    this.props.deleteDeal(deal.id).then(() => this.goBack());
+    this.setState({loading: buttons.delete.name});
+    this.props.deleteDeal(deal.id).then(() => {
+      this.setState({loading: null});
+      this.goBack();
+    })
+    .catch(() => {
+      this.setState({loading: null});
+    });
   }
 
   recycleDeal = () => {
     const deal = this.state.deal;
     if(!deal || !deal.id) return;
-     this.props.recycleDeal(deal.id).then(response => this.setState({deal: response}));
+
+    this.setState({loading: buttons.recycle.name})
+    this.props.recycleDeal(deal.id).then(response => {
+      this.setState({deal: response, loading: null})
+    });
   }
 
   getDealPictures = () => {
     const deal = this.state.deal;
     if (!deal || !deal.id) return;
 
-    this.props.getDealPictures(deal.id).then(response => {
+    this.setState({loading: 'get-pictures'})
+    this.props.getDealPictures(deal.id)
+    .then(response => {
       this.setState({
-        dealPictures: response && Array.isArray(response.data) ? response.data : []
+        dealPictures: response && Array.isArray(response.data) ? response.data : [],
+        loading: null,
       })
+    })
+    .catch(() => {
+      this.setState({loading: null})
+    })
+  }
+
+  getDealCategories = () => {
+    const deal = this.state.deal;
+    if (!deal || !deal.id) return;
+
+    this.setState({loading: 'get-categories'});
+    this.props.getDealCategories(deal.id)
+    .then(response => {
+      this.setState({
+        dealCategories: response && Array.isArray(response.data) ? response.data : [],
+        loading: null,
+      })
+    })
+    .catch(() => {
+      this.setState({loading: null});
     })
   }
 
@@ -125,8 +171,14 @@ class EditDeal extends React.Component {
     const deal = this.state.deal;
     if (!deal || !deal.id) return;
 
-    this.props.saveDealPicture(deal.id, values).then(response => {
+    this.setState({loading: 'save-pictures'})
+    return this.props.saveDealPicture(deal.id, values)
+    .then(() => {
       this.getDealPictures();
+      this.setState({loading: null})
+    })
+    .catch(() => {
+      this.setState({loading: null})
     })
   }
 
@@ -140,9 +192,14 @@ class EditDeal extends React.Component {
       categories: values.map(x => x.id)
     }
 
-    this.props.saveDealCategories(deal.id, data).then(response => {
+    this.setState({loading: 'save-categories'})
+    return this.props.saveDealCategories(deal.id, data)
+    .then(response => {
       if (Array.isArray(response.data))
-        this.setState({ dealCategories: response.data })
+        this.setState({ 
+          dealCategories: response.data,
+          loading: null,
+       })
     })
   }
 
@@ -157,11 +214,7 @@ class EditDeal extends React.Component {
       this.getDealPictures();
     }
     else if(key === 'categories' && !this.state.dealCategories.length) {
-      this.props.getDealCategories(deal.id).then(response => {
-        this.setState({
-          dealCategories: response && Array.isArray(response.data) ? response.data : []
-        })
-      })
+      this.getDealCategories();
     }
 
   }
@@ -169,11 +222,6 @@ class EditDeal extends React.Component {
   goBack = () => {
     const list = '/deals/list';
     this.jumper.jumpTo(list);
-    // const path = this.props.location.pathname;
-    // if (path) {
-    //   const up = this.jumper.pathUp(path, 2);
-    //   if (up) this.jumper.jumpTo(up);
-    // }
   }
 
   getButtons = () => {
@@ -215,7 +263,8 @@ class EditDeal extends React.Component {
     const category = this.props.category;
 
     return (
-      <Page title="Edit Deal" buttons={btns}>
+      <Page title="Edit Deal" buttons={btns} loading={this.state.loading}>
+        <LoadingBar loading={this.state.loading} />
         <Tabs activeKey={this.state.tabKey} onSelect={this.selectTab}>
           <Tab eventKey="details" title="Details">
             <Card className="tab-content">
@@ -249,7 +298,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   ...dealActions,
   ...brandActions,
-  // ...categoryActions,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EditDeal));

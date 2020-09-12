@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 
-import { PageBar } from '../../shared';
+import { PageBar, LoadingBar } from '../../shared';
 import { Page } from '../../layout'
 import DealListView from './ListView';
 
@@ -23,6 +23,10 @@ const buttons = [
 class DealList extends React.Component {
 
   jumper = createHistoryJumper(this.props.history);
+
+  state = {
+    loading: false
+  }
 
   componentDidMount() {
     const dealData = _.get(this.props.deals, 'result.data');
@@ -57,7 +61,7 @@ class DealList extends React.Component {
     }
     query = _.omitBy(query, v => (v === '' || v === null || v === undefined));
     //console.log('filter: ', query);
-    this.searchDeals(query);
+    return this.searchDeals(query);
   }
 
   onButtonClick = button => {
@@ -75,7 +79,9 @@ class DealList extends React.Component {
   }
 
   searchDeals = query => {
-    return this.props.searchDeals(query);
+    this.setState({loading: true});
+    return this.props.searchDeals(query)
+      .finally(() => this.setState({loading: false}));
   }
 
   render() {
@@ -84,6 +90,8 @@ class DealList extends React.Component {
     const searchResult = this.props.deals.result || {};
     const query = this.props.deals.query || {}; 
 
+    // console.log('loadings: ', this.props.loadings);
+
     return (
       <Page title="Deals List" buttons={buttons} onButtonClick={this.onButtonClick}>
         <Card className="mb-3">
@@ -91,6 +99,7 @@ class DealList extends React.Component {
             <DealsFilter onSubmit={this.filterDeals} stores={storeData} initValues={query} />
           </Card.Body>
         </Card>
+        <LoadingBar loading={this.state.loading} />
         <Card>
           <Card.Body>
             <DealListView deals={searchResult} onEditDeal={this.editDeal} onDeleteDeal={this.deleteDeal} />
@@ -105,6 +114,7 @@ class DealList extends React.Component {
 const mapStateToProps = state => ({
   deals: state.deals.search,
   stores: state.stores.search.result,
+  loadings: state.api.loadings
 });
 
 const mapDispatchToProps = {

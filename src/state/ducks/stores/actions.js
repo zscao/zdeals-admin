@@ -1,5 +1,5 @@
 import * as types from './types';
-import { dispatchFetch } from '../api/fetch';
+import { dispatchFetch } from '../api/dispatchFetch';
 import apiRoutes from '../api/apiRoutes';
 
 

@@ -51,8 +51,11 @@ function DealForm({ initValues, brands, onSubmit }) {
       values.brand = selectedBrand.value;
     }
 
-    setSubmitting(true);
-    onSubmit(values).finally(() => setSubmitting(false));
+    const result = onSubmit(values);
+    if(result instanceof Promise) {
+      setSubmitting(true);
+      result.finally(() => setSubmitting(false));
+    }
 
   }, [onSubmit, selectedBrand])
 

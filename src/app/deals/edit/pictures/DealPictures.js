@@ -37,7 +37,7 @@ export default function Pictures(props) {
   }
 
   function submitPictureForm(values) {
-    if (typeof (props.onPictureFormSubmit) === 'function') props.onPictureFormSubmit(values);
+    if (typeof (props.onPictureFormSubmit) === 'function') return props.onPictureFormSubmit(values);
   }
 
   return (

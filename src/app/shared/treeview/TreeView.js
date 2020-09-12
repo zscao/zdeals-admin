@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, ListGroup, Collapse } from 'react-bootstrap'
+import { Form, ListGroup, Collapse, Spinner } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleRight, faAngleDown, faMinus, faFolder, faFolderOpen, faFile } from '@fortawesome/free-solid-svg-icons'
 
@@ -65,8 +65,17 @@ export class TreeView extends React.Component {
 
   selectItem = item => {
     const selected = this.model.selectItem(item.key);
-    if(selected && typeof(this.props.onSelectItem) === 'function') 
-      this.props.onSelectItem(selected.data);
+    if(selected && typeof(this.props.onSelectItem) === 'function') {
+      const result = this.props.onSelectItem(selected.data);
+      if(result instanceof Promise) {
+        item.loading = true;
+        this.forceUpdate();
+        result.finally(() => {
+          item.loading = false;
+          this.forceUpdate();
+        })
+      }
+    }
   }
 
   toggleCheckStatus = item => {
@@ -94,7 +103,10 @@ export class TreeView extends React.Component {
             <React.Fragment key={item.key}>
               <ListGroup.Item className={selectRow ? 'select-row' : ''}  active={item.active}>
                 <FontAwesomeIcon icon={item.open ? faAngleDown : faAngleRight} className="expander" onClick={() => this.toggleOpenStatus(item)} />
-                { showIcon && <FontAwesomeIcon icon={item.open ? faFolderOpen : faFolder} className="folder" />}
+                { item.loading
+                  ? <Spinner animation="grow" size="sm" />
+                  : showIcon && <FontAwesomeIcon icon={item.open ? faFolderOpen : faFolder} className="folder" />
+                }
                 { showCheckbox && <Form.Check type="checkbox" aria-label="" checked={item.checked} onChange={e => this.toggleCheckStatus(item)} />} 
                 <span onClick={() => this.selectItem(item)}>{item.title}</span>
               </ListGroup.Item>

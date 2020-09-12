@@ -1,20 +1,28 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Row, Col, Form, Button } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 
 import { FormErrorBlock } from '../../../shared'
 import { pictureFormValidation as validation } from './validation';
 
-export default function PictureForm(props) {
+export default function PictureForm({initValues, onSubmit}) {
 
   const { register, handleSubmit, reset, errors } = useForm()
 
+  const [loading, setLoading ] = useState(false);
+
   useEffect(() => {
-    reset(props.initValues);
-  }, [props.initValues, reset])
+    reset(initValues);
+  }, [initValues, reset])
 
   function onFormSubmit(values) {
-    if(typeof(props.onSubmit) === 'function') props.onSubmit(values);
+    if(typeof(onSubmit) === 'function') {
+      const result = onSubmit(values);
+      if(result instanceof Promise) {
+        setLoading(true);
+        result.finally(() => setLoading(false));
+      }
+    }
   }
 
   return (
@@ -47,7 +55,9 @@ export default function PictureForm(props) {
       </Form.Group>
 
       <div className="form-buttons">
-        <Button type="submit">Save</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? 'Saving...' : 'Save'}
+        </Button>
       </div>
     </Form>
   )

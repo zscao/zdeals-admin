@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
-import { Row, Col, Button } from 'react-bootstrap'
+import { Row, Col, Button, Alert } from 'react-bootstrap'
 
 import { TreeView } from '../../shared'
 import { mapCategoryToTreeNode, createHistoryJumper } from '../../helpers'
@@ -14,12 +14,9 @@ class Sidebar extends React.Component {
 
   jumper = createHistoryJumper(this.props.history);
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      nodes: []
-    }
+  state = {
+    nodes: [],
+    loading: false,
   }
 
   componentDidMount() {
@@ -28,7 +25,9 @@ class Sidebar extends React.Component {
       this.setState({nodes});
     }
     else {
-      this.props.getCategoryTree();
+      this.setState({loading: true});
+      this.props.getCategoryTree()
+      .finally(() => this.setState({loading: false}));
     }
   }
 
@@ -44,7 +43,7 @@ class Sidebar extends React.Component {
 
   onSelectTreeItem = item => {
 
-    this.props.searchDeals({
+    return this.props.searchDeals({
       category: item.code,
       deleted: false,
     })
@@ -67,6 +66,8 @@ class Sidebar extends React.Component {
             <Button as={Link} to={`${basePath}/create`} variant="success" block>New Deal +</Button>
           </Col>
         </Row>
+
+        {this.state.loading  && <Alert variant="info">Loading Categories ...</Alert>}
 
         <TreeView data={this.state.nodes} expandLevel={1} onSelectItem={this.onSelectTreeItem} selectRow showIcon />
 

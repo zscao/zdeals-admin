@@ -1,4 +1,4 @@
-import { apiFetch } from "../api/fetch"
+import { apiFetch } from "../api/apiFetch"
 import apiRoutes from "../api/apiRoutes"
 
 export const uploadPicture = (container, file, onUploadProgress) => {
