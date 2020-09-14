@@ -58,6 +58,15 @@ export default function Filter({initValues, stores, onSubmit}) {
     setValue('deleted', false);
   }
 
+  function onCheckDeleted(checked) {
+    //console.log('value of deleted:', checked);
+    if(checked) setValue('verified', undefined);
+  }
+
+  function onCheckVerified(value) {
+    setValue('deleted', false);
+  }
+
   return (
     <Form onSubmit={handleSubmit(onFormSubmit)}>
       <Form.Row>
