@@ -6,9 +6,9 @@ import _ from 'lodash';
 
 import { FormErrorBlock } from '../shared';
 
-import { storeFormValidation as validation } from './validation';
+import { brandFormValidation as validation } from './validation';
 
-function StoreForm({initValues, onSubmit}) {
+function BrandForm({initValues, onSubmit}) {
 
   const { register, handleSubmit, reset, errors } = useForm();
 
@@ -19,10 +19,16 @@ function StoreForm({initValues, onSubmit}) {
 
   function onFormSubmit(values) {
     if(typeof(onSubmit) !== 'function') return;
-
+    
     values.name = values.name.trim();
-    values.website = values.website.trim();
-    values.domain = values.domain.trim();
+    values.code = values.code.trim();
+
+    if(!values.displayOrder) {
+      values.displayOrder = 0;
+    }
+    else {
+      values.displayOrder = parseInt(values.displayOrder);
+    }
 
     onSubmit(values);
   }
@@ -32,23 +38,23 @@ function StoreForm({initValues, onSubmit}) {
       <Form.Group as={Row}>
         <Form.Label column lg={2}>Name</Form.Label>
         <Col lg={10}>
-          <Form.Control type="text" name="name" isInvalid={!!errors.name} placeholder="Store Name" ref={register(validation.name)} />
+          <Form.Control type="text" name="name" isInvalid={!!errors.name} placeholder="Brand Name" ref={register(validation.name)} />
           <FormErrorBlock error={errors.name} />
         </Col>
       </Form.Group>
 
       <Form.Group as={Row}>
-        <Form.Label column lg={2}>Website</Form.Label>
+        <Form.Label column lg={2}>Code</Form.Label>
         <Col lg={10}>
-          <Form.Control type="text" name="website" isInvalid={!!errors.website} placeholder="Website Address" ref={register(validation.website)} />
-          <FormErrorBlock error={errors.website} />
+          <Form.Control type="text" name="code" isInvalid={!!errors.code} placeholder="Unique Code" ref={register(validation.code)} />
+          <FormErrorBlock error={errors.code} />
         </Col>
       </Form.Group>
 
       <Form.Group as={Row}>
-        <Form.Label column lg={2}>Domain</Form.Label>
+        <Form.Label column lg={2}>Display Order</Form.Label>
         <Col lg={10}>
-          <Form.Control type="text" name="domain" isInvalid={!!errors.domain} placeholder="Main Domain Name" ref={register(validation.domain)} />
+          <Form.Control type="number" name="displayOrder" isInvalid={!!errors.displayOrder} placeholder="Display Order" ref={register(validation.displayOrder)} />
           <FormErrorBlock error={errors.domain} />
         </Col>
       </Form.Group>
@@ -60,4 +66,4 @@ function StoreForm({initValues, onSubmit}) {
   )
 }
 
-export default StoreForm;
+export default BrandForm;

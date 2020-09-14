@@ -13,7 +13,7 @@ class Login extends React.Component {
   jumper = createHistoryJumper(this.props.history);
 
   login = values => {
-    console.log('login: ', values);
+    //console.log('login: ', values);
 
     this.props.login(values).then(response => {
       //console.log('logged in: ', response);

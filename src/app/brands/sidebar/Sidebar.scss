@@ -1,0 +1,9 @@
+.brand-list {
+  &.list-group {
+    max-height: calc(100vh - 200px);
+    margin-bottom: 10px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+}

@@ -37,7 +37,7 @@ export default function StoreList({ stores = [], activeStore, onClickItem }) {
       </Form.Group>
       <ListGroup className="store-list" variant="flush">
         {filteredStores.map(store => (
-          <ListGroup.Item action active={activeStore && activeStore.id === store.id} key={store.id} onClick={() => onClickItem(store)}>
+          <ListGroup.Item action key={store.id} active={activeStore && activeStore.id === store.id} onClick={() => onClickItem(store)}>
             <div className="d-flex justify-content-between">
               <span className='mr-2 name'>{store.name}</span>
               <span className="domain">{store.domain}</span>

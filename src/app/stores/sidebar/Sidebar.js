@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Row, Col, Button, Alert } from 'react-bootstrap'
 import { Link, withRouter } from 'react-router-dom'
+import { Row, Col, Button, Alert } from 'react-bootstrap'
 
 import './Sidebar.scss'
 
@@ -12,7 +12,7 @@ import * as storeActions from '../../../state/ducks/stores/actions';
 
 class Sidebar extends React.Component {
 
-  jumpter = createHistoryJumper(this.props.history);
+  jumper = createHistoryJumper(this.props.history);
 
   state = {
     activeStore: null,
@@ -24,7 +24,7 @@ class Sidebar extends React.Component {
     .then(response => {
       this.setState({loading: false});
       
-      const storeId = this.getEditingStoreId();
+      const storeId = this.getEditingId();
       if(storeId && Array.isArray(response.data)) {
         const store = response.data.find(x => x.id === storeId);
         if(store) this.setState({activeStore: store});
@@ -39,7 +39,7 @@ class Sidebar extends React.Component {
 
    if(currLocation.pathname !== prevLocation.pathname) {
     
-    const storeId = this.getEditingStoreId();
+    const storeId = this.getEditingId();
     if(!storeId) {
       this.setState({activeStore: null});
       return;
@@ -58,10 +58,10 @@ class Sidebar extends React.Component {
 
     const { basePath } = this.props;
     const next = `${basePath}/edit/${store.id}`;
-    this.jumpter.jumpTo(next);
+    this.jumper.jumpTo(next);
   }
 
-  getEditingStoreId = () => {
+  getEditingId = () => {
     const { basePath, location } = this.props;
     const editingPattern = `${basePath}/edit/(\\d+)`;
     const regex = new RegExp(editingPattern);
@@ -77,8 +77,8 @@ class Sidebar extends React.Component {
 
     return (
       <>
-        <Row className="mb-3 justify-content-center">
-          <Col sm={12} md={8}>
+        <Row className="mb-3">
+          <Col>
             <Button as={Link} to={`${basePath}/create`} variant="success" block>New Store +</Button>
           </Col>
         </Row>

@@ -43,7 +43,7 @@ export const updateDeal = (id, data) => {
   return dispatchFetch({
     url,
     method: 'PUT',
-    label: types.EDIT_DEAL,
+    label: types.UPDATE_DEAL,
     data,
     toast: {
       success: 'Deal updated.'

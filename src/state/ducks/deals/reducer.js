@@ -58,7 +58,7 @@ function handleApiSuccessAction(state, payload) {
       }
       return state;
 
-    case types.EDIT_DEAL:
+    case types.UPDATE_DEAL:
       if (payload.result && payload.result.id) {
         let data = _.get(state.search, 'result.data');
         if (Array.isArray(data)) {

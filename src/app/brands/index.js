@@ -1,14 +1,14 @@
 import React from 'react'
 import { Switch, Route, useRouteMatch, withRouter } from 'react-router-dom'
-import { Row, Col } from 'react-bootstrap'
+import {Row, Col } from 'react-bootstrap'
 
 import Sidebar from './sidebar'
 import EditPage from './EditPage'
 import CreatePage from './CreatePage'
 
-function Stores() {
+function Brands() {
 
-  const { path } = useRouteMatch();
+  const {path} = useRouteMatch();
 
   return (
     <Row>
@@ -32,4 +32,4 @@ function Stores() {
   )
 }
 
-export default withRouter(Stores)
+export default withRouter(Brands);
