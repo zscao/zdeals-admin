@@ -1,6 +1,8 @@
 import * as types from './types';
 import * as apiTypes from '../api/types';
 
+import _ from 'lodash'
+
 const defaultState = {
   search: {
     query: null,
@@ -30,6 +32,16 @@ function handleApiSuccessAction(state, payload) {
           ...payload
         }
       };
+      
+    case types.CREATE_STORE:
+      if(payload.result && payload.result.id) {
+        let data = _.get(state.search, 'result.data');
+        if(Array.isArray(data)) {
+          state.search.result.data = [...data, payload.result];
+          state.search.result =  { ...state.search.result}
+        }
+      }
+      return state;
 
     default:
       return state;

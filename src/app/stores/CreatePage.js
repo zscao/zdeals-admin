@@ -11,28 +11,25 @@ import StoreForm from './StoreForm';
 import * as storeActions from '../../state/ducks/stores/actions';
 
 
-const buttons = [
-  { name: 'backToList', title: 'Back to List'}
-]
-
 class CreatePage extends React.Component {
 
   jumper = createHistoryJumper(this.props.history);
 
   submitForm = values => {
     //console.log('submitting: ', values);
-    this.props.createStore(values).then(response => {
-      //console.log(response);
+    this.props.createStore(values).then(store => {
+      if(store && store.id) {
+        const { basePath } = this.props;
+        const next=`${basePath}/edit/${store.id}`;
+        this.jumper.jumpTo(next);
+      }
     })
   }
 
-  onButtonClick = button => {
-    if(button.name === 'backToList') this.jumper.jumpTo('/stores')
-  }
-
   render() {
+
     return (
-      <Page title="Create Store" buttons={buttons} onButtonClick={this.onButtonClick}>
+      <Page title="Create Store">
         <Card>
           <Card.Body>
           <StoreForm onSubmit={this.submitForm} />

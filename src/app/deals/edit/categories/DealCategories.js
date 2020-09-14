@@ -10,19 +10,15 @@ export default function Categories({category, dealCategories, onSubmit}) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log('set category: ', category);
     const data = category ? mapCategoryToTreeNode([category]) : [];
     treeviewRef.current.setData(data);
-    //treeviewRef.current.setCheckedItems(dealCategories);
   }, [category, treeviewRef])
 
   useEffect(() => {
-    console.log('set deal categories: ', dealCategories);
     treeviewRef.current.setCheckedItems(dealCategories);
   }, [dealCategories, treeviewRef])
 
   const onCheckItem = item => {
-    //console.log('item checked: ', item);
   }
 
   const onFormSubmit = () => {

@@ -1,0 +1,18 @@
+.store-list {
+  &.list-group {
+    max-height: calc(100vh - 200px);
+    margin-bottom: 10px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+
+    span.name {
+      font-weight: 600;
+    }
+    span.domain {
+      font-size: 0.8em;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+}

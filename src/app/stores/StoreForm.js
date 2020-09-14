@@ -35,7 +35,7 @@ function StoreForm(props) {
       </Form.Group>
 
       <Form.Group as={Row}>
-        <Form.Label l column lg={2}>Website</Form.Label>
+        <Form.Label column lg={2}>Website</Form.Label>
         <Col lg={10}>
           <Form.Control type="text" name="website" isInvalid={!!errors.website} placeholder="Website Address" ref={register(validation.website)} />
           <FormErrorBlock error={errors.website} />
@@ -43,7 +43,7 @@ function StoreForm(props) {
       </Form.Group>
 
       <Form.Group as={Row}>
-        <Form.Label l column lg={2}>Domain</Form.Label>
+        <Form.Label column lg={2}>Domain</Form.Label>
         <Col lg={10}>
           <Form.Control type="text" name="domain" isInvalid={!!errors.domain} placeholder="Main Domain Name" ref={register(validation.domain)} />
           <FormErrorBlock error={errors.domain} />
