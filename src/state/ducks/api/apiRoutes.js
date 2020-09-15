@@ -3,6 +3,9 @@ export const baseIdentityUrl = process.env.REACT_APP_IDENTITY_HOST
 export const basePictureUrl = process.env.REACT_APP_PICTURE_HOST
 
 const apiRoutes = {
+  dashboard: {
+    base: baseUrl + '/dashboard',
+  },
   deals: {
     base: baseUrl + '/deals',
   },
