@@ -1,8 +1,7 @@
 import React, {useState } from 'react'
 import { Button, Table, Spinner } from 'react-bootstrap'
-import moment from 'moment'
 
-import { Confirm } from '../../shared'
+import { Confirm, Constants } from '../../shared'
 
 function DealListView(props) {
 
@@ -40,15 +39,11 @@ function DealListView(props) {
           <td>{deal.id}</td>
           <td className="text-overflow" style={{ width: '50%' }}>{deal.title}</td>
           <td>{deal.store && deal.store.name}</td>
-          <td>{deal.deleted 
-              ? <span>Deleted<br/>{moment(deal.deletedTime).format('DD/MM/YYYY h:mm A')}</span>
-              : deal.verified
-              ? <span>Verified by {deal.verifiedBy}<br/>{moment(deal.verifiedTime).format('DD/MM/YYYY h:mm A')}</span> : ''}
-          </td>
+          <td><span className={getTextClassForStatus(deal.status)}>{deal.status}</span></td>
           <td>
             <Button size="sm" className="mx-1" variant="primary" onClick={() => editDeal(deal)}>Edit</Button>
 
-            {!deal.deleted && <Confirm
+            {deal.status !== 'deleted' && <Confirm
               onConfirm={() => deleteDeal(deal)}
               title="Deleting Deal"
               body="Are you sure you want to delete this deal?">
@@ -59,6 +54,15 @@ function DealListView(props) {
       </tbody>
     </Table>
   )
+}
+
+function getTextClassForStatus(status) {
+  switch(status) {
+    case Constants.DealStatus.Deleted: return 'text-danger';
+    case Constants.DealStatus.Verified: return 'text-success';
+    case Constants.DealStatus.Created: return 'text-info';
+    default: return 'text-dark';
+  }
 }
 
 

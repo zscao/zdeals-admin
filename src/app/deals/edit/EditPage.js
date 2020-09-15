@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { Tabs, Tab, Card } from 'react-bootstrap'
+import { Tabs, Tab, Card, Badge } from 'react-bootstrap'
 
 import Page from '../../layout/Page'
 import { createHistoryJumper } from '../../helpers/routeHelper'
@@ -12,7 +12,7 @@ import * as brandActions from '../../../state/ducks/brands/actions'
 import EditForm from './EditForm'
 import DealPictures from './pictures'
 import DealCategories from './categories'
-import { LoadingBar } from '../../shared'
+import { LoadingBar, Constants } from '../../shared'
 
 const buttons = {
   backToList: {
@@ -232,7 +232,7 @@ class EditDeal extends React.Component {
 
     if (this.state.deal) {
       const deal = this.state.deal;
-      if(deal.deleted) {
+      if(deal.status === Constants.DealStatus.Deleted) {
         result.push({
           ...buttons.recycle,
           onClick: this.recycleDeal
@@ -244,7 +244,7 @@ class EditDeal extends React.Component {
           onClick: this.deleteDeal
         });
 
-        if (!deal.verified) result.push({
+        if (deal.status !== Constants.DealStatus.Verified) result.push({
           ...buttons.verify,
           onClick: this.verifyDeal
         });
@@ -260,26 +260,29 @@ class EditDeal extends React.Component {
     const brandResult = this.props.brands;
     const brands = brandResult && Array.isArray(brandResult.data) ? brandResult.data : [];
 
-    const category = this.props.category;
+    const { category } = this.props;
+    const { deal, loading, tabKey, dealPictures, dealCategories } = this.state;
+
+    const titleBadge = deal ? (<Badge pill variant="secondary">{deal.status}</Badge>) : null;
 
     return (
-      <Page title="Edit Deal" buttons={btns} loading={this.state.loading}>
-        <LoadingBar loading={this.state.loading} />
-        <Tabs activeKey={this.state.tabKey} onSelect={this.selectTab}>
+      <Page title="Edit Deal" buttons={btns} loading={loading} titleBadge={titleBadge} >
+        <LoadingBar loading={loading} />
+        <Tabs activeKey={tabKey} onSelect={this.selectTab}>
           <Tab eventKey="details" title="Details">
             <Card className="tab-content">
               <Card.Body>
-                <EditForm initValues={this.state.deal} onSubmit={this.submitDealForm} brands={brands} />
+                <EditForm initValues={deal} onSubmit={this.submitDealForm} brands={brands} />
               </Card.Body>
             </Card>
           </Tab>
           <Tab eventKey="pictures" title="Pictures">
-            <DealPictures pictures={this.state.dealPictures} onPictureFormSubmit={this.submitPictureForm} />
+            <DealPictures pictures={dealPictures} onPictureFormSubmit={this.submitPictureForm} />
           </Tab>
           <Tab eventKey="categories" title="Categories">
             <Card className="tab-content">
               <Card.Body>
-                <DealCategories category={category} dealCategories={this.state.dealCategories} onSubmit={this.submitCategoryForm} />
+                <DealCategories category={category} dealCategories={dealCategories} onSubmit={this.submitCategoryForm} />
               </Card.Body>
             </Card>
           </Tab>

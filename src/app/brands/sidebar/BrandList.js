@@ -39,7 +39,10 @@ export default function BrandList({brands = [], activeBrand, onClickItem }) {
       <ListGroup className="brand-list" variant="flush">
         {filteredBrands.map(brand => (
           <ListGroup.Item action key={brand.id} active={activeBrand && activeBrand.code === brand.code} onClick={() => onClickItem(brand)}>
-            {brand.name}
+            <div className="d-flex justify-content-between">
+              <span className='name'>{brand.name}</span>
+              <span className="code">{brand.code}</span>
+            </div>
           </ListGroup.Item>
         ))}
       </ListGroup>

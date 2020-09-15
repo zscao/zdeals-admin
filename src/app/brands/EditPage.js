@@ -55,7 +55,7 @@ class EditPage extends React.Component {
       <Page title="Edit Store">
         <Card>
           <Card.Body>
-            <BrandFrom initValues={this.state.brand} onSubmit={this.submitForm} />
+            <BrandFrom initValues={this.state.brand} onSubmit={this.submitForm} mode='edit' />
           </Card.Body>
         </Card>
       </Page>

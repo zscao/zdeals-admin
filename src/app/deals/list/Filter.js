@@ -15,7 +15,7 @@ export default function Filter({initValues, stores, onSubmit}) {
   const [selectedStore, setSelectedStore] = useState(defaultStore);
   const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, reset, setValue } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   useEffect(() => {
 
@@ -49,24 +49,6 @@ export default function Filter({initValues, stores, onSubmit}) {
     }
   }
 
-  function onCheckDeleted(checked) {
-    //console.log('value of deleted:', checked);
-    if(checked) setValue('verified', undefined);
-  }
-
-  function onCheckVerified(value) {
-    setValue('deleted', false);
-  }
-
-  function onCheckDeleted(checked) {
-    //console.log('value of deleted:', checked);
-    if(checked) setValue('verified', undefined);
-  }
-
-  function onCheckVerified(value) {
-    setValue('deleted', false);
-  }
-
   return (
     <Form onSubmit={handleSubmit(onFormSubmit)}>
       <Form.Row>
@@ -78,10 +60,10 @@ export default function Filter({initValues, stores, onSubmit}) {
           <Form.Control type="text" className="mb-2 mr-2" id="title-keywords" placeholder="keywords in title" name="keywords" ref={register} />
         </Col>
         <Col lg="auto" className="form-inline">
-          {/* <Form.Check className="mr-2" type="radio" name="verified" label="All" value="" ref={register} /> */}
-          <Form.Check className="mr-2" type="radio" name="verified" label="Verified" value="true" ref={register} onChange={e => onCheckVerified(e.target.value)} />
-          <Form.Check className="mr-2" type="radio" name="verified" label="NOT Verified" value="false" ref={register} onChange={e => onCheckVerified(e.target.value)} />
-          <Form.Check className="mr-2" type="checkbox" name="deleted" label="Deleted" ref={register} onChange={e => onCheckDeleted(e.target.checked)} />
+          <Form.Check className="mr-2" type="radio" name="status" label="Created" value="created" ref={register} />
+          <Form.Check className="mr-2" type="radio" name="status" label="Verified" value="verified" ref={register} />
+          <Form.Check className="mr-2" type="radio" name="status" label="Deleted" value="deleted" ref={register} />
+          {/* <Form.Check className="mr-2" type="checkbox" name="deleted" label="Deleted" ref={register} onChange={e => onCheckDeleted(e.target.checked)} /> */}
         </Col>
         <Col lg="auto">
           <Button className="min100" type="submit" variant="success" disabled={loading}>{loading && <Spinner animation="grow" size="sm" />} Filter</Button>

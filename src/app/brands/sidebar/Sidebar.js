@@ -26,7 +26,7 @@ class Sidebar extends React.Component {
 
       const brandId = this.getEditingId();
       if(brandId && Array.isArray(response.data)) {
-        const brand = response.data.find(x => x.id == brandId);
+        const brand = response.data.find(x => x.id === brandId);
         if(brand) this.setState({activeBrand: brand});
       }
     })

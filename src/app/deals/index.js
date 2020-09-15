@@ -20,9 +20,6 @@ function Deals() {
       </Col>
       <Col className="content-container">
         <Switch>
-          <Route exact path={path}>
-            Deals default
-          </Route>
           <Route path={`${path}/list`}>
             <ListDeal />
           </Route>
@@ -31,6 +28,9 @@ function Deals() {
           </Route>
           <Route path={`${path}/edit/:id`}>
             <EditDeal />
+          </Route>
+          <Route path={path}>
+            <CreateDeal />
           </Route>
         </Switch>
       </Col>

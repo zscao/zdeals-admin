@@ -59,53 +59,57 @@ function handleApiSuccessAction(state, payload) {
       return state;
 
     case types.UPDATE_DEAL:
+    case types.DELETE_DEAL:
+    case types.RECYCLE_DEAL:
+    case types.VERIFY_DEAL:
       if (payload.result && payload.result.id) {
         let data = _.get(state.search, 'result.data');
         if (Array.isArray(data)) {
           const index = data.map(x => x.id).indexOf(payload.result.id);
           if (index >= 0) {
             data[index] = payload.result;
+            //state.search.result.data = [...data];
             state = { ...state }
           }
         }
       }
       return state;
 
-    case types.DELETE_DEAL:
-      if (payload.result && payload.result.id) {
-        let data = _.get(state.search, 'result.data');
-        if (Array.isArray(data) && data.length) {
-          data = data.filter(x => x.id !== payload.result.id);
-          state.search.result.data = data;
-          state = { ...state }
-        }
-      }
-      return state;
+    // case types.DELETE_DEAL:
+    //   if (payload.result && payload.result.id) {
+    //     let data = _.get(state.search, 'result.data');
+    //     if (Array.isArray(data) && data.length) {
+    //       data = data.filter(x => x.id !== payload.result.id);
+    //       state.search.result.data = data;
+    //       state = { ...state }
+    //     }
+    //   }
+    //   return state;
 
-    case types.RECYCLE_DEAL:
-      if (payload.result && payload.result.id) {
-        let data = _.get(state.search, 'result.data');
-        if (Array.isArray(data) && data.length) {
-          data = data.filter(x => x.id !== payload.result.id);
-          state.search.result.data = data;
-          state = { ...state }
-        }
-      }
-      return state;
+    // case types.RECYCLE_DEAL:
+    //   if (payload.result && payload.result.id) {
+    //     let data = _.get(state.search, 'result.data');
+    //     if (Array.isArray(data) && data.length) {
+    //       data = data.filter(x => x.id !== payload.result.id);
+    //       state.search.result.data = data;
+    //       state = { ...state }
+    //     }
+    //   }
+    //   return state;
 
-    case types.VERIFY_DEAL:
-      if (payload.result && payload.result.id) {
-        let data = _.get(state.search, 'result.data');
-        if (Array.isArray(data)) {
-          const deal = data.find(x => x.id === payload.result.id);
-          if (deal) {
-            deal.verifiedBy = payload.result.verifiedBy;
-            deal.verifiedTime = payload.result.verifiedTime;
-            state = { ...state }
-          }
-        }
-      }
-      return state;
+    // case types.VERIFY_DEAL:      
+    //   if (payload.result && payload.result.id) {
+    //     let data = _.get(state.search, 'result.data');
+    //     if (Array.isArray(data)) {
+    //       const deal = data.find(x => x.id === payload.result.id);
+    //       if (deal) {
+    //         deal.status = payload.result.verifiedBy;
+    //         deal.verifiedTime = payload.result.verifiedTime;
+    //         state = { ...state }
+    //       }
+    //     }
+    //   }
+    //   return state;
 
     case types.GET_CATEGORY_TREE:
       return {

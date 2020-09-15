@@ -8,7 +8,7 @@ import { FormErrorBlock } from '../shared';
 
 import { brandFormValidation as validation } from './validation';
 
-function BrandForm({initValues, onSubmit}) {
+function BrandForm({initValues, mode, onSubmit}) {
 
   const { register, handleSubmit, reset, errors } = useForm();
 
@@ -36,21 +36,19 @@ function BrandForm({initValues, onSubmit}) {
   return (
     <Form onSubmit={handleSubmit(onFormSubmit)}>
       <Form.Group as={Row}>
+        <Form.Label column lg={2}>Code</Form.Label>
+        <Col lg={10}>
+          <Form.Control type="text" name="code" isInvalid={!!errors.code} placeholder="Unique Code" ref={register(validation.code)} readOnly={mode==='edit'} />
+          <FormErrorBlock error={errors.code} />
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row}>
         <Form.Label column lg={2}>Name</Form.Label>
         <Col lg={10}>
           <Form.Control type="text" name="name" isInvalid={!!errors.name} placeholder="Brand Name" ref={register(validation.name)} />
           <FormErrorBlock error={errors.name} />
         </Col>
       </Form.Group>
-
-      <Form.Group as={Row}>
-        <Form.Label column lg={2}>Code</Form.Label>
-        <Col lg={10}>
-          <Form.Control type="text" name="code" isInvalid={!!errors.code} placeholder="Unique Code" ref={register(validation.code)} />
-          <FormErrorBlock error={errors.code} />
-        </Col>
-      </Form.Group>
-
       <Form.Group as={Row}>
         <Form.Label column lg={2}>Display Order</Form.Label>
         <Col lg={10}>

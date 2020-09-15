@@ -6,4 +6,13 @@
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
   }
+
+  span.name {
+    font-weight: 600;
+  }
+  span.code {
+    font-size: 0.8em;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }

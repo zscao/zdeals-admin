@@ -3,14 +3,14 @@ import { Container, Row, Col, Button, Spinner } from 'react-bootstrap'
 
 import { Confirm } from '../shared'
 
-export default function Page({title, buttons = [], onButtonClick, loading, children}) {
+export default function Page({title, titleBadge, buttons = [], onButtonClick, loading, children}) {
 
   return (
     <Container fluid>
       <Row className="mb-3">
         <Col>
           <div className="d-flex justify-content-between">
-            <h2>{title}</h2>
+            <h2>{title} {titleBadge}</h2>
             <div>
               {buttons.map(b => {
                 const onClick = typeof(b.onClick) === 'function' ? b.onClick : (() => onButtonClick(b));

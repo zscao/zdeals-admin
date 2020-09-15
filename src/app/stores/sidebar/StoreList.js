@@ -39,7 +39,7 @@ export default function StoreList({ stores = [], activeStore, onClickItem }) {
         {filteredStores.map(store => (
           <ListGroup.Item action key={store.id} active={activeStore && activeStore.id === store.id} onClick={() => onClickItem(store)}>
             <div className="d-flex justify-content-between">
-              <span className='mr-2 name'>{store.name}</span>
+              <span className='name'>{store.name}</span>
               <span className="domain">{store.domain}</span>
             </div>
           </ListGroup.Item>

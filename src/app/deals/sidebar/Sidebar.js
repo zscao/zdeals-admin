@@ -45,7 +45,6 @@ class Sidebar extends React.Component {
 
     return this.props.searchDeals({
       category: item.code,
-      deleted: false,
     })
     .then(() => {
       const { basePath } = this.props;

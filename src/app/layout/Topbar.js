@@ -17,7 +17,7 @@ export default function Topbar() {
           height="32"
           className="d-inline-block align-top"
         />{' '}
-        Admin Portal
+        Admin
       </Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
