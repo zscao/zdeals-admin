@@ -5,32 +5,23 @@ import { Card } from 'react-bootstrap'
 import { createHistoryJumper } from '../helpers'
 
 import { Page } from '../layout'
-import BrandForm from './BrandForm'
+import CategoryForm from './CategoryForm'
 
-import * as brandActions from '../../state/ducks/brands/actions'
+import * as categoryActions from '../../state/ducks/categories/actions'
 
 class CreatePage extends React.Component {
   jumper = createHistoryJumper(this.props.history);
 
   submitForm = values => {
-    //console.log('create brand: ', values);
-
-    this.props.createBrand(values).then(brand => {
-      if(brand && brand.id) {
-        const { basePath } = this.props;
-        const next = `${basePath}/edit/${brand.id}`;
-        this.jumper.jumpTo(next);
-      }
-    })
+    console.log('create category: ', values);
   }
 
   render() {
-
     return (
-      <Page title="Create Brand">
+      <Page title="Create Category">
         <Card>
           <Card.Body>
-            <BrandForm onSubmit={this.submitForm} />
+            <CategoryForm onSubmit={this.submitForm} />
           </Card.Body>
         </Card>
       </Page>
@@ -39,11 +30,11 @@ class CreatePage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  brands: state.brands
+  categories: state.categories
 })
 
 const mapDispatchToProps = {
-  ...brandActions
+  ...categoryActions
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreatePage)

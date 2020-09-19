@@ -17,8 +17,6 @@ class Dashboard extends React.Component {
 
     const {dealsDailyVisit} = this.props;
 
-    console.log('daily visit: ', dealsDailyVisit);
-
     return (
       <div className="chart-container">
         <DealVisitBar data={dealsDailyVisit} />

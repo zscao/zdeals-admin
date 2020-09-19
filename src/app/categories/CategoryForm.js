@@ -6,9 +6,9 @@ import _ from 'lodash';
 
 import { FormErrorBlock } from '../shared';
 
-import { brandFormValidation as validation } from './validation';
+import { categoryFormValidation as validation } from './validation';
 
-function BrandForm({initValues, mode, onSubmit}) {
+function CategoryForm({initValues, mode, onSubmit}) {
 
   const { register, handleSubmit, reset, errors } = useForm();
 
@@ -20,7 +20,7 @@ function BrandForm({initValues, mode, onSubmit}) {
   function onFormSubmit(values) {
     if(typeof(onSubmit) !== 'function') return;
     
-    values.name = values.name.trim();
+    values.title = values.title.trim();
     values.code = values.code.trim();
 
     if(!values.displayOrder) {
@@ -43,10 +43,10 @@ function BrandForm({initValues, mode, onSubmit}) {
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
-        <Form.Label column lg={2}>Name</Form.Label>
+        <Form.Label column lg={2}>Title</Form.Label>
         <Col lg={10}>
-          <Form.Control type="text" name="name" isInvalid={!!errors.name} placeholder="Brand Name" ref={register(validation.name)} />
-          <FormErrorBlock error={errors.name} />
+          <Form.Control type="text" name="title" isInvalid={!!errors.name} placeholder="Category Title" ref={register(validation.title)} />
+          <FormErrorBlock error={errors.title} />
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
@@ -64,4 +64,4 @@ function BrandForm({initValues, mode, onSubmit}) {
   )
 }
 
-export default BrandForm;
+export default CategoryForm;

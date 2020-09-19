@@ -22,8 +22,9 @@ export default function Topbar() {
         <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
         <Nav.Link as={Link} to="/deals">Deals</Nav.Link>
         <NavDropdown title="Settings">
-          <NavDropdown.Item href="/stores">Stores</NavDropdown.Item>
+          <NavDropdown.Item href="/categories">Categories</NavDropdown.Item>
           <NavDropdown.Item href="/brands">Brands</NavDropdown.Item>
+          <NavDropdown.Item href="/stores">Stores</NavDropdown.Item>
         </NavDropdown>
       </Nav>
       <Nav>

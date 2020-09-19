@@ -22,7 +22,7 @@ export const createHistoryJumper = history => {
       return current.substring(0, index);
     }
     else {
-      return null;
+      return '';
     }
   }
 

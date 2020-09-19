@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
@@ -122,4 +121,4 @@ const mapDispatchToProps = {
   searchStores: storeActions.searchStores,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(DealList));
+export default connect(mapStateToProps, mapDispatchToProps)(DealList);

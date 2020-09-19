@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
 
 import _ from 'lodash'
@@ -35,7 +34,10 @@ class EditPage extends React.Component {
     const prevMatchId = _.get(prevMatch, 'params.id');
     const currMatchId = _.get(currMatch, 'params.id');
 
+    console.log('brand edit upated.', prevMatchId, currMatchId)
+
     if(currMatchId && prevMatchId !== currMatchId) {
+      console.log('refresh brand')
       this.props.getBrandById(currMatchId).then(response => {
         this.setState({ brand: response })
       })
@@ -52,7 +54,7 @@ class EditPage extends React.Component {
 
   render() {
     return (
-      <Page title="Edit Store">
+      <Page title="Edit Brand">
         <Card>
           <Card.Body>
             <BrandFrom initValues={this.state.brand} onSubmit={this.submitForm} mode='edit' />
@@ -71,4 +73,4 @@ const mapDispatchToProps = {
   ...brandActions
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EditPage));
+export default connect(mapStateToProps, mapDispatchToProps)(EditPage);

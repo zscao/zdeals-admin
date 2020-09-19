@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, useRouteMatch, withRouter } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import { Row, Col } from 'react-bootstrap'
 
 import './index.scss'
@@ -9,33 +9,25 @@ import CreateDeal from './create'
 import EditDeal from './edit'
 import ListDeal from './list'
 
-function Deals() {
+function Deals({match, location, history}) {
 
-  const { path } = useRouteMatch();
+  const { path } = match;
 
   return (
     <Row>
       <Col lg="2" className="side-container">
-        <Sidebar basePath={path} />
+        <Sidebar basePath={path} location={location} history={history} />
       </Col>
       <Col className="content-container">
         <Switch>
-          <Route path={`${path}/list`}>
-            <ListDeal />
-          </Route>
-          <Route path={`${path}/create`}>
-            <CreateDeal />
-          </Route>
-          <Route path={`${path}/edit/:id`}>
-            <EditDeal />
-          </Route>
-          <Route path={path}>
-            <CreateDeal />
-          </Route>
+          <Route path={`${path}/list`} component={ListDeal} />
+          <Route path={`${path}/create`} component={CreateDeal} />
+          <Route path={`${path}/edit/:id`} component={EditDeal} />
+          <Route path={path} component={CreateDeal} />
         </Switch>
       </Col>
     </Row>
   )
 }
 
-export default withRouter(Deals)
+export default Deals

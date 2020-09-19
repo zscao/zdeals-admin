@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Row, Col, Button, Alert } from 'react-bootstrap'
 
 import './Sidebar.scss'
@@ -97,4 +97,4 @@ const mapDispatchToProps = {
   ...storeActions,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Sidebar));
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

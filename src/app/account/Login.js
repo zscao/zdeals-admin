@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { Row, Col } from 'react-bootstrap'
 
 import { createHistoryJumper } from '../helpers'
@@ -45,4 +44,4 @@ const mapDispatchToProps = {
   ...userActions
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login))
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

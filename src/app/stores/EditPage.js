@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
 
 import _ from 'lodash'
@@ -72,4 +71,4 @@ const mapDispatchToProps = {
   ...storeActions
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EditPage));
+export default connect(mapStateToProps, mapDispatchToProps)(EditPage);

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Row, Col, Button, Alert } from 'react-bootstrap'
 
 import './Sidebar.scss'
@@ -34,11 +34,13 @@ class Sidebar extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+
+    
     const prevLocation = prevProps.location;
     const currLocation = this.props.location;
- 
+    
     if(currLocation.pathname !== prevLocation.pathname) {
-     
+
      const brandId = this.getEditingId();
      if(!brandId) {
        this.setState({activeBrand: null});
@@ -99,4 +101,4 @@ const mapDispatchToProps = {
   ...brandActions,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Sidebar))
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)

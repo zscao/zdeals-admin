@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 
 import { createHistoryJumper } from '../helpers/routeHelper';
@@ -47,4 +46,4 @@ const mapStateToPros = state => ({
 const mapDispatchToProps = {
   ...storeActions
 }
-export default connect(mapStateToPros, mapDispatchToProps)(withRouter(CreatePage));
+export default connect(mapStateToPros, mapDispatchToProps)(CreatePage);

@@ -11,6 +11,7 @@ import Dashboard from './dashboard'
 import Deals from './deals'
 import Stores from './stores'
 import Brands from './brands'
+import Categories from './categories'
 import Account from './account'
 import Login from './account/Login'
 
@@ -33,12 +34,13 @@ const FullPageLayout = ({ children }) => {
   )
 }
 
-const FullPageLogin = () => (<FullPageLayout><Login /></FullPageLayout>);
-const PortalDashboard = () => (<PortalLayout><Dashboard /></PortalLayout>);
-const PortalDeals = () => (<PortalLayout><Deals /></PortalLayout>);
-const PortalStores = () => (<PortalLayout><Stores /></PortalLayout>);
-const PortalBrands = () => (<PortalLayout><Brands /></PortalLayout>)
-const PortalAccount = () => (<PortalLayout><Account /></PortalLayout>);
+const FullPageLogin = props => (<FullPageLayout><Login {...props} /></FullPageLayout>);
+const PortalDashboard = props => (<PortalLayout><Dashboard {...props} /></PortalLayout>);
+const PortalDeals = props => (<PortalLayout><Deals {...props} /></PortalLayout>);
+const PortalStores = props => (<PortalLayout><Stores {...props} /></PortalLayout>);
+const PortalBrands = props => (<PortalLayout><Brands {...props} /></PortalLayout>);
+const PortalCategories = props => (<PortalLayout><Categories {...props} /></PortalLayout>);
+const PortalAccount = props => (<PortalLayout><Account {...props} /></PortalLayout>);
 
 
 const App = ({ baseUrl }) => {
@@ -50,6 +52,7 @@ const App = ({ baseUrl }) => {
         <PrivateRoute path="/deals" component={PortalDeals} />
         <PrivateRoute path="/stores" component={PortalStores} />
         <PrivateRoute path="/brands" component={PortalBrands} />
+        <PrivateRoute path="/categories" component={PortalCategories} />
         <PrivateRoute path="/account" component={PortalAccount} />
 
         <Route path="/login" component={FullPageLogin} />

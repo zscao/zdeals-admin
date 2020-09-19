@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 import Page from '../../layout/Page'
 
@@ -73,4 +72,4 @@ const mapDispatchToProps = {
   ...dealActions
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreateDeal));
+export default connect(mapStateToProps, mapDispatchToProps)(CreateDeal);

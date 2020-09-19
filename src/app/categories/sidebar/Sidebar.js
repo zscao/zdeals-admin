@@ -6,23 +6,21 @@ import { Row, Col, Button, Alert } from 'react-bootstrap'
 import { TreeView } from '../../shared'
 import { mapCategoryToTreeNode, createHistoryJumper } from '../../helpers'
 
-
-import * as dealActions from '../../../state/ducks/deals/actions'
 import * as categoryActions from '../../../state/ducks/categories/actions'
 
 class Sidebar extends React.Component {
-
+  
   jumper = createHistoryJumper(this.props.history);
 
   state = {
     nodes: [],
-    loading: false,
+    loading: false
   }
 
   componentDidMount() {
     if(this.props.categories) {
       const nodes = mapCategoryToTreeNode([this.props.categories]);
-      this.setState({nodes});
+      this.setState({nodes})
     }
     else {
       this.setState({loading: true});
@@ -38,20 +36,15 @@ class Sidebar extends React.Component {
       const nodes = mapCategoryToTreeNode([currCategories]);
       this.setState({nodes});
     }
-
   }
 
   onSelectTreeItem = item => {
 
-    return this.props.searchDeals({
-      category: item.code,
-    })
-    .then(() => {
-      const { basePath } = this.props;
-      //console.log('tree item selected: ', item);
-      const next = `${basePath}/list`;
-      this.jumper.jumpTo(next);
-    })
+    if(!item || !item.id) return;
+
+    const { basePath } = this.props;
+    const next = `${basePath}/edit/${item.id}`
+    this.jumper.jumpTo(next);
   }
 
   render() {
@@ -62,14 +55,13 @@ class Sidebar extends React.Component {
       <>
         <Row className="mb-3">
           <Col>
-            <Button as={Link} to={`${basePath}/create`} variant="success" block>New Deal +</Button>
+            <Button as={Link} to={`${basePath}/create`} variant="success" block>New Category +</Button>
           </Col>
         </Row>
 
-        {this.state.loading  && <Alert variant="info">Loading Categories ...</Alert>}
+        {this.state.loading && <Alert variant="info">Loading Categories ...</Alert>}
 
         <TreeView data={this.state.nodes} expandLevel={1} onSelectItem={this.onSelectTreeItem} selectRow showIcon />
-
       </>
     )
   }
@@ -77,12 +69,10 @@ class Sidebar extends React.Component {
 
 const mapStateToProps = state => ({
   categories: state.categories.tree.result
-});
+})
 
 const mapDispatchToProps = {
-  ...dealActions,
   ...categoryActions
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)

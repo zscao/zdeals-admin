@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { Tabs, Tab, Card, Badge } from 'react-bootstrap'
 
 import Page from '../../layout/Page'
@@ -303,4 +302,4 @@ const mapDispatchToProps = {
   ...brandActions,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EditDeal));
+export default connect(mapStateToProps, mapDispatchToProps)(EditDeal);
