@@ -34,10 +34,8 @@ class EditPage extends React.Component {
     const prevMatchId = _.get(prevMatch, 'params.id');
     const currMatchId = _.get(currMatch, 'params.id');
 
-    console.log('brand edit upated.', prevMatchId, currMatchId)
-
     if(currMatchId && prevMatchId !== currMatchId) {
-      console.log('refresh brand')
+
       this.props.getBrandById(currMatchId).then(response => {
         this.setState({ brand: response })
       })

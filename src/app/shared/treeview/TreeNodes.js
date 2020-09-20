@@ -52,6 +52,12 @@ export default function TreeNodes(data = []) {
     return node;
   }
 
+  function setOpenStatus(node) {
+    if(!node) return;
+    node.open = true;
+    if(node.parent) setOpenStatus(node.parent);
+  }
+
   function toggleCheckStatus(key) {
     const node = findNode(_data, key);
     if (node) {
@@ -106,7 +112,7 @@ export default function TreeNodes(data = []) {
     })
   }
 
-  function setActiveItem(key) {
+  function setActiveItemByKey(key) {
     let selected = undefined;
 
     forEach(_data, node => {
@@ -118,6 +124,24 @@ export default function TreeNodes(data = []) {
         node.active = false;
     })
 
+    if(selected) setOpenStatus(selected);
+    return selected;
+  }
+
+  function setActiveItemByData(data) {
+    let selected = undefined;
+
+    forEach(_data, node => {
+      if(node.data === data) {
+        node.active = true;
+        selected = node;
+      }
+      else if(node.active) {
+        node.active = false;
+      }
+    })
+
+    if(selected) setOpenStatus(selected);
     return selected;
   }
 
@@ -150,7 +174,8 @@ export default function TreeNodes(data = []) {
     getData: () => _data,
     toggleOpenStatus,
     toggleCheckStatus,
-    setActiveItem,
+    setActiveItemByKey,
+    setActiveItemByData,
     expandOnLevel,
     resetData,
     getCheckedItems,

@@ -11,7 +11,7 @@ export class TreeView extends React.Component {
   
   constructor(props) {
     super(props);
-    this.model = new DataModel(props.data, props.expandLevel);
+    this.model = new DataModel(props.data, props.expandLevel, props.activeItem);
   }
 
   componentDidMount() {
@@ -36,8 +36,13 @@ export class TreeView extends React.Component {
 
     if(!(prevData || currData)) return;
 
-    if((!prevData && currData) || (prevData && !currData) || (prevData.length !== currData.length)) {
+    if((!prevData && currData) || (prevData && !currData) || (prevData !== currData)) {
       this.model.resetData(currData);
+      if(this.props.activeItem) this.model.setActiveItem(this.props.activeItem);
+      this.forceUpdate();
+    }
+    else if(prevProps.activeItem !== this.props.activeItem) {
+      this.model.setActiveItem(this.props.activeItem);
       this.forceUpdate();
     }
   }

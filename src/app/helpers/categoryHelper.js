@@ -10,3 +10,22 @@ export const mapCategoryToTreeNode = list => {
     children: mapCategoryToTreeNode(c.children)
   }))
 }
+
+export const findCategoryNodeById = (nodes = [], id = 0) => {
+  let result = undefined;
+
+  for(let i=0; i<nodes.length; i++) {
+    const node = nodes[i];
+    if(node.id === id) {
+      result = node;
+      break;
+    }
+    if(Array.isArray(node.children)) {
+      result = findCategoryNodeById(node.children, id);
+      if(result) break;
+    }
+  }
+
+  return result;
+
+}

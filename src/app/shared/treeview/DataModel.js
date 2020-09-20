@@ -8,18 +8,20 @@ const EventNames = {
 }
 
 
-export default function DataModel(data = [], expandLevel = 0) {
+export default function DataModel(data = [], expandLevel = 0, activeItem = undefined) {
   
   const _listeners = new Listeners();
   
   const _nodes = new TreeNodes(data);
   // set default expand nodes based on the expandLevel
   _nodes.expandOnLevel(expandLevel);
+  if(activeItem) 
+    _nodes.setActiveItemByData(activeItem);
 
   function selectItem(key) {
     //console.log(`select item: `, key);
 
-    const selected = _nodes.setActiveItem(key);
+    const selected = _nodes.setActiveItemByKey(key);
     if(selected) {
       const listners = _listeners.searchEventListeners(EventNames.SelectItem);
       if(listners.length > 0) {
@@ -96,6 +98,7 @@ export default function DataModel(data = [], expandLevel = 0) {
     getData,
     resetData,
     selectItem,
+    setActiveItem: _nodes.setActiveItemByData,
     toggleOpenStatus,
     toggleCheckStatus,
     getCheckedItems,

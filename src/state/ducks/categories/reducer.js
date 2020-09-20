@@ -6,6 +6,11 @@ const defaultState = {
     query: null,
     result: null,
     state: null,
+  },
+  list: {
+    query: null,
+    result: null,
+    state: null
   }
 }
 
@@ -29,6 +34,12 @@ function handleApiSuccessAction(state, payload) {
         ...state, tree: {
           ...payload
         } 
+      };
+    case types.GET_CATEGORY_LIST:
+      return {
+        ...state, list: {
+          ...payload
+        }
       };
 
     default:

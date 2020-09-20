@@ -1,8 +1,6 @@
 import * as types from './types';
 import * as apiTypes from '../api/types';
 
-import _ from 'lodash'
-
 const defaultState = {
   dealsDailyVisit: {}
 }

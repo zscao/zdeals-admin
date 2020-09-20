@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap'
 
 import Sidebar from './sidebar'
 import CreatePage from './CreatePage'
+import EditPage from './EditPage'
 
 function Categories({ match, location, history }) {
 
@@ -16,9 +17,7 @@ function Categories({ match, location, history }) {
       </Col>
       <Col className="content-container">
         <Switch>
-          <Route path={`${path}/edit/:id`}>
-            Edit Form
-          </Route>
+          <Route path={`${path}/edit/:id`} component={EditPage} />
           <Route path={`${path}/create`} render={props => <CreatePage basePath={path} {...props} />} />
           <Route path={path} render={props => <CreatePage basePath={path} {...props} />} />
         </Switch>

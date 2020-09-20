@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, matchPath } from 'react-router-dom'
 import { Row, Col, Button, Alert } from 'react-bootstrap'
 
 import './Sidebar.scss'
@@ -24,7 +24,7 @@ class Sidebar extends React.Component {
     .then(response => {
       this.setState({loading: false});
 
-      const brandId = this.getEditingId();
+      const brandId = this.getEditingId(this.props.location);
       if(brandId && Array.isArray(response.data)) {
         const brand = response.data.find(x => x.id === brandId);
         if(brand) this.setState({activeBrand: brand});
@@ -41,7 +41,7 @@ class Sidebar extends React.Component {
     
     if(currLocation.pathname !== prevLocation.pathname) {
 
-     const brandId = this.getEditingId();
+     const brandId = this.getEditingId(currLocation);
      if(!brandId) {
        this.setState({activeBrand: null});
        return;
@@ -63,13 +63,18 @@ class Sidebar extends React.Component {
     this.jumper.jumpTo(next);
   }
 
-  getEditingId = () => {
-    const { basePath, location } = this.props;
-    const editingPattern = `${basePath}/edit/(\\d+)`;
-    const regex = new RegExp(editingPattern);
-    const result = regex.exec(location.pathname);
+  getEditingId = location => {
+    if(!location) return undefined;
 
-    return Array.isArray(result) && result.length > 1 ? parseInt(result[1]) : undefined;
+    const { basePath } = this.props;
+    const match = matchPath(location.pathname, {
+      path: `${basePath}/edit/:id`
+    });
+    
+    // console.log('match: ', match);
+    if(!match) return undefined;
+
+    return match.params && match.params.id ? parseInt(match.params.id) : undefined;
   }
 
   render() {
