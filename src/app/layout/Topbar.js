@@ -2,6 +2,9 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faUserCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+
 import { getUser } from '../../state/session/storage'
 
 export default function Topbar() {
@@ -28,7 +31,15 @@ export default function Topbar() {
         </NavDropdown>
       </Nav>
       <Nav>
-        <Nav.Link as={Link} to="/account">{user.nickname}</Nav.Link>
+        <NavDropdown title={<><FontAwesomeIcon icon={faUser} className="mr-2" />{user.nickname}</>}>
+          <NavDropdown.Item href="/account">
+            <FontAwesomeIcon icon={faUserCircle} className="mr-2" />Account
+          </NavDropdown.Item>
+          <NavDropdown.Divider />
+          <NavDropdown.Item href="/logout">
+            <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />Logout
+          </NavDropdown.Item>
+        </NavDropdown>
       </Nav>
     </Navbar>
   )

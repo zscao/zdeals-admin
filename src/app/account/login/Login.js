@@ -2,10 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
 
-import { createHistoryJumper } from '../helpers'
+import { createHistoryJumper } from '../../helpers'
 import LoginForm from './LoginForm'
 
-import * as userActions from '../../state/ducks/users/actions'
+import * as accountActions from '../../../state/ducks/account/actions'
 
 class Login extends React.Component {
 
@@ -37,11 +37,11 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  users: state.users
+  account: state.account
 })
 
 const mapDispatchToProps = {
-  ...userActions
+  ...accountActions
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

@@ -22,8 +22,11 @@ const apiRoutes = {
   },
   users: {
     base: baseIdentityUrl + '/users',
-    login: baseIdentityUrl + '/users/login',
-    refresh: baseIdentityUrl + '/users/refresh',
+  },
+  account: {
+    base: baseIdentityUrl + '/account',
+    login: baseIdentityUrl + '/account/login',
+    refresh: baseIdentityUrl + '/account/refresh',
   },
   pictures: {
     base: basePictureUrl + '/pictures', 

@@ -7,7 +7,7 @@ import * as storage from '../../session/storage';
 export const login = data => {
   
   return dispatchFetch({
-    url: apiRoutes.users.login,
+    url: apiRoutes.account.login,
     method: 'POST',
     label: types.LOGIN,
     data, 
@@ -16,6 +16,18 @@ export const login = data => {
     }
   })
 }
+
+export const changePassword = data => {
+  return dispatchFetch({
+    url: `${apiRoutes.account.base}/password`,
+    method: 'PUT',
+    data,
+    toast: {
+      success: 'Your password has been changed'
+    }
+  })
+}
+
 
 export const logout = () => {
   storage.clear();

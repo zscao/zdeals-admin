@@ -109,7 +109,7 @@ const refreshToken = (token, refreshToken) => {
   };
 
   return apiFetch({
-    url: apiRoutes.users.refresh,
+    url: apiRoutes.account.refresh,
     method: 'POST',
     data,
     onSuccess: data => {

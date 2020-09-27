@@ -6,7 +6,7 @@ const defaultState = {
   username: null,
 }
 
-function users(state = defaultState, action) {
+function account(state = defaultState, action) {
   switch(action.type) {
     case apiTypes.API_SUCCESS:
       return handleApiSuccessAction(state, action.payload);
@@ -31,4 +31,4 @@ function handleApiSuccessAction(state, payload) {
   }
 }
 
-export default users;
+export default account;

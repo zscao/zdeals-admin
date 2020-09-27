@@ -16,7 +16,7 @@ function Brands({match, history, location}) {
       <Col lg="3" className="side-container">
         <Sidebar basePath={path} history={history} location={location} />
       </Col>
-      <Col>
+      <Col className="content-container">
         <Switch>
           <Route path={`${path}/edit/:id`} component={EditPage} />
           <Route path={`${path}/create`} render={props => <CreatePage basePath={path} {...props}/>} />

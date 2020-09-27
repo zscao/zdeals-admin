@@ -54,7 +54,11 @@ function CategoryForm({initValues, categories, mode, onSubmit}) {
     if(parentCategory && parentCategory.value)
       values.parentId = parseInt(parentCategory.value);
 
-    result = onSubmit(values);
+    const result = onSubmit(values);
+    if(result instanceof Promise) {
+      setLoading(true);
+      result.then(() => setLoading(false));
+    }
   }
 
   return (
@@ -88,7 +92,7 @@ function CategoryForm({initValues, categories, mode, onSubmit}) {
       </Form.Group>
 
       <div className="form-buttons">
-        <Button type="submit">Save</Button>
+        <Button disabled={loading} type="submit">Save</Button>
       </div>
     </Form>
   )

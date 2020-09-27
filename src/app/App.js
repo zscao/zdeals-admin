@@ -13,7 +13,8 @@ import Stores from './stores'
 import Brands from './brands'
 import Categories from './categories'
 import Account from './account'
-import Login from './account/Login'
+import Login from './account/login'
+import Logout from './account/logout'
 
 const PortalLayout = ({ children }) => {
   return (
@@ -35,6 +36,7 @@ const FullPageLayout = ({ children }) => {
 }
 
 const FullPageLogin = props => (<FullPageLayout><Login {...props} /></FullPageLayout>);
+const FullPageLogout = props => (<FullPageLayout><Logout {...props} /></FullPageLayout>);
 const PortalDashboard = props => (<PortalLayout><Dashboard {...props} /></PortalLayout>);
 const PortalDeals = props => (<PortalLayout><Deals {...props} /></PortalLayout>);
 const PortalStores = props => (<PortalLayout><Stores {...props} /></PortalLayout>);
@@ -56,6 +58,7 @@ const App = ({ baseUrl }) => {
         <PrivateRoute path="/account" component={PortalAccount} />
 
         <Route path="/login" component={FullPageLogin} />
+        <Route path="/logout" component={FullPageLogout} />
         <Redirect to="/dashboard" />
       </Switch>
   </BrowserRouter>

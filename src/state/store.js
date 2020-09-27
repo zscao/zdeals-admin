@@ -10,7 +10,7 @@ import deals from './ducks/deals/reducer'
 import stores from './ducks/stores/reducer'
 import brands from './ducks/brands/reducer'
 import categories from './ducks/categories/reducer'
-import users from './ducks/users/reducer'
+import account from './ducks/account/reducer'
 
 const reducers = combineReducers({
   api,
@@ -19,7 +19,7 @@ const reducers = combineReducers({
   stores,
   brands,
   categories,
-  users,
+  account,
 });
 
 const middleware = [thunk];
