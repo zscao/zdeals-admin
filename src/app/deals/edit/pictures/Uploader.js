@@ -53,6 +53,8 @@ export default function Uploader(props) {
     if(!navigator.clipboard) return;
 
     const auth = await navigator.permissions.query( { name: "clipboard-read" } );
+    //console.log('auth: ', auth);
+
     if( auth.state !== 'denied' ) {
       const item_list = await navigator.clipboard.read();
 
@@ -74,6 +76,7 @@ export default function Uploader(props) {
   }
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop: onDropFiles })
+  const canPasteFromClipboard = !!navigator.clipboard
 
   return (
     <>
@@ -81,7 +84,7 @@ export default function Uploader(props) {
         <input {...getInputProps()} />
         <p className="clickable">{loading ? `${progress.state}: ${progress.percentage}%` : "Click here to select a file to upload."}</p>
       </div>
-      <div className="picture-dropzone clickable" onClick={uploadImageFromClipboard}>Paste from Clipboard</div>
+      {canPasteFromClipboard && <div className="picture-dropzone clickable" onClick={uploadImageFromClipboard}>Paste from Clipboard</div>}
     </>
   )
 
