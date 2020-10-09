@@ -71,7 +71,7 @@ function DealForm(props) {
             <FormErrorBlock error={errors.source} />
           </InputGroup>
           {existedId > 0 && <Alert variant="warning">
-            This deal alread exists. Click <Alert.Link href={`/deals/list/edit/${existedId}`}>here</Alert.Link> to edit it.
+            This deal alread exists. Click <Alert.Link href={`/deals/edit/${existedId}`}>here</Alert.Link> to edit it.
           </Alert>}
         </Col>
       </Form.Group>

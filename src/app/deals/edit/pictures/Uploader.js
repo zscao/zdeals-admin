@@ -11,6 +11,7 @@ export default function Uploader(props) {
     if(!Array.isArray(acceptedFiles) || !acceptedFiles.length) return;
     
     const file = acceptedFiles[0];
+    //console.log('file: ', file);
     uploadFile(file)
   }
 
@@ -48,13 +49,40 @@ export default function Uploader(props) {
     }
   }
 
+  async function uploadImageFromClipboard() {
+    if(!navigator.clipboard) return;
+
+    const auth = await navigator.permissions.query( { name: "clipboard-read" } );
+    if( auth.state !== 'denied' ) {
+      const item_list = await navigator.clipboard.read();
+
+      let image_type; 
+      const image = item_list.find( item => 
+        item.types.some(type => {
+          if(type.startsWith('image/')) {
+            image_type = type;
+            return true;
+          }
+        })
+      );
+      const file = image && await image.getType(image_type);
+      //console.log( file );
+      if(file &&  file.size > 1000) {
+        uploadFile(file);
+      }
+    }
+  }
+
   const { getRootProps, getInputProps } = useDropzone({ onDrop: onDropFiles })
 
   return (
-    <div {...getRootProps({ className: 'picture-dropzone clickable' })}>
-      <input {...getInputProps()} />
-      <p className="clickable">{loading ? `${progress.state}: ${progress.percentage}%` : "Click here to select a file to upload."}</p>
-    </div>
+    <>
+      <div {...getRootProps({ className: 'picture-dropzone clickable' })}>
+        <input {...getInputProps()} />
+        <p className="clickable">{loading ? `${progress.state}: ${progress.percentage}%` : "Click here to select a file to upload."}</p>
+      </div>
+      <div className="picture-dropzone clickable" onClick={uploadImageFromClipboard}>Paste from Clipboard</div>
+    </>
   )
 
 }

@@ -24,11 +24,9 @@ export default function Topbar() {
       <Nav className="mr-auto">
         <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
         <Nav.Link as={Link} to="/deals">Deals</Nav.Link>
-        <NavDropdown title="Settings">
-          <NavDropdown.Item href="/categories">Categories</NavDropdown.Item>
-          <NavDropdown.Item href="/brands">Brands</NavDropdown.Item>
-          <NavDropdown.Item href="/stores">Stores</NavDropdown.Item>
-        </NavDropdown>
+        <Nav.Link as={Link} to="/categories">Categories</Nav.Link>
+        <Nav.Link as={Link} to="/brands">Brands</Nav.Link>
+        <Nav.Link as={Link} to="/stores">Stores</Nav.Link>
       </Nav>
       <Nav>
         <NavDropdown title={<><FontAwesomeIcon icon={faUser} className="mr-2" />{user.nickname}</>}>
