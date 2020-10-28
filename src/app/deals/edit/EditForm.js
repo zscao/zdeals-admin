@@ -44,7 +44,7 @@ function DealForm({ initValues, brands, onSubmit }) {
     if (typeof (onSubmit) !== 'function') return;
 
     values.dealPrice = !_.isNaN(values.dealPrice) ? Number.parseFloat(values.dealPrice) : 0;
-    values.fullPrice = !_.isNaN(values.fullPrice) ? Number.parseFloat(values.fullPrice) : 0;
+    values.usedPrice = !_.isNaN(values.usedPrice) ? Number.parseFloat(values.usedPrice) : 0;
 
     if (!values.expiryDate) values.expiryDate = null;
     if(selectedBrand && selectedBrand.value) {
@@ -62,11 +62,11 @@ function DealForm({ initValues, brands, onSubmit }) {
   const calculateDiscount = useCallback(() => {
     const values = getValues();    
     const dealPrice = !_.isNaN(values.dealPrice) ? Number.parseFloat(values.dealPrice) : 0;
-    const fullPrice = !_.isNaN(values.fullPrice) ? Number.parseFloat(values.fullPrice) : 0;
+    const usedPrice = !_.isNaN(values.usedPrice) ? Number.parseFloat(values.usedPrice) : 0;
     
-    if(values.dealPrice > 0 && values.fullPrice > 0) {
-      const save = fullPrice - dealPrice;
-      const discount = Math.round( (save / fullPrice) * 10000) / 100;
+    if(values.dealPrice > 0 && values.usedPrice > 0) {
+      const save = usedPrice - dealPrice;
+      const discount = Math.round( (save / usedPrice) * 10000) / 100;
 
       setDiscountItems([`Save $${save}`, `${discount}% off`]);
     }
@@ -142,7 +142,7 @@ function DealForm({ initValues, brands, onSubmit }) {
       </Form.Group>
 
       <Form.Group as={Row}>
-        <Form.Label column lg={2}>Full Price</Form.Label>
+        <Form.Label column lg={2}>Used Price</Form.Label>
         <Col lg={3}>
           <InputGroup lg={3}>
             <InputGroup.Prepend>
@@ -151,12 +151,12 @@ function DealForm({ initValues, brands, onSubmit }) {
 
             <Form.Control 
               type="number" step={0.01} 
-              name="fullPrice" isInvalid={!!errors.fullPrice} 
+              name="usedPrice" isInvalid={!!errors.usedPrice} 
               placeholder="0.00" 
               onFocus={e => e.target.select()}
-              onBlur={calculateDiscount} ref={register(validation.fullPrice)} 
+              onBlur={calculateDiscount} ref={register(validation.usedPrice)} 
             />
-            <FormErrorBlock error={errors.fullPrice} />
+            <FormErrorBlock error={errors.usedPrice} />
           </InputGroup>
         </Col>
       </Form.Group>

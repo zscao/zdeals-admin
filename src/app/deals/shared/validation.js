@@ -38,10 +38,10 @@ export const dealFormValidation = {
       message: 'Deal price must be numbers with maximum 2 decimals' 
     } 
   },
-  fullPrice: { 
+  usedPrice: { 
     pattern: { 
       value: /^\d*(\.\d{1,2})?$/, 
-      message: 'Full price must be numbers with maximum 2 decimals' 
+      message: 'Used price must be numbers with maximum 2 decimals' 
     } 
   },
   publishedDate: { 
