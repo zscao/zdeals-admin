@@ -21,9 +21,7 @@ function DealForm({ initValues, brands, onSubmit }) {
   useEffect(() => {
     const values = _.cloneDeep(initValues);
     if (values) {
-      values.publishedDate = moment(values.publishedDate).format('YYYY-MM-DD');
       if (values.expiryDate) values.expiryDate = moment(values.expiryDate).format('YYYY-MM-DD');
-
       reset(values)
     }
   }, [initValues, reset])
@@ -189,14 +187,6 @@ function DealForm({ initValues, brands, onSubmit }) {
         <Form.Label column lg={2}>Description</Form.Label>
         <Col lg={10}>
           <Form.Control as="textarea" name="description" rows="4" placeholder="" ref={register} />
-        </Col>
-      </Form.Group>
-
-      <Form.Group as={Row}>
-        <Form.Label column lg={2}>Published Date</Form.Label>
-        <Col lg={3}>
-          <Form.Control type="date" name="publishedDate" isInvalid={!!errors.publishedDate} placeholder="DD/MM/YYYY" ref={register(validation.publishedDate)} />
-          <FormErrorBlock error={errors.publishedDate} />
         </Col>
       </Form.Group>
 

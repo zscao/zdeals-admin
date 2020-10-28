@@ -44,9 +44,6 @@ export const dealFormValidation = {
       message: 'Used price must be numbers with maximum 2 decimals' 
     } 
   },
-  publishedDate: { 
-    required: 'Published date is required' 
-  },
   description: {
     maxLength: {
       value: 400,
