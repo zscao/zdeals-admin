@@ -52,7 +52,7 @@ class EditPage extends React.Component {
 
   render() {
     const { categoryList } = this.props;
-    const categories = categoryList && Array.isArray(categoryList.data) ? categoryList.data : [];
+    const categories = categoryList && Array.isArray(categoryList.items) ? categoryList.items : [];
 
     return (
       <Page title="Edit Category">

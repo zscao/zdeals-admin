@@ -87,9 +87,11 @@ class EditDeal extends React.Component {
     return this.props.updateDeal(deal.id, values)
     .then(response => {
       this.setState({
-        deal: response,
-        loading: null,
+        deal: response
       })
+    })
+    .finally(() => {
+      this.setState({loading: null});
     })
   }
 
@@ -100,10 +102,9 @@ class EditDeal extends React.Component {
     this.setState({loading: buttons.verify.name});
     this.props.verifyDeal(deal.id)
     .then(() => {
-      this.setState({loading: null});
       this.goBack();
     })
-    .catch(() => {
+    .finally(() => {
       this.setState({loading: null});
     })
   }
@@ -140,11 +141,10 @@ class EditDeal extends React.Component {
     this.props.getDealPictures(deal.id)
     .then(response => {
       this.setState({
-        dealPictures: response && Array.isArray(response.data) ? response.data : [],
-        loading: null,
+        dealPictures: response && Array.isArray(response.items) ? response.items : []
       })
     })
-    .catch(() => {
+    .finally(() => {
       this.setState({loading: null})
     })
   }
@@ -157,11 +157,11 @@ class EditDeal extends React.Component {
     this.props.getDealCategories(deal.id)
     .then(response => {
       this.setState({
-        dealCategories: response && Array.isArray(response.data) ? response.data : [],
+        dealCategories: response && Array.isArray(response.items) ? response.items : [],
         loading: null,
       })
     })
-    .catch(() => {
+    .finally(() => {
       this.setState({loading: null});
     })
   }
@@ -174,9 +174,8 @@ class EditDeal extends React.Component {
     return this.props.saveDealPicture(deal.id, values)
     .then(() => {
       this.getDealPictures();
-      this.setState({loading: null})
     })
-    .catch(() => {
+    .finally(() => {
       this.setState({loading: null})
     })
   }
@@ -194,11 +193,13 @@ class EditDeal extends React.Component {
     this.setState({loading: 'save-categories'})
     return this.props.saveDealCategories(deal.id, data)
     .then(response => {
-      if (Array.isArray(response.data))
+      if (Array.isArray(response.items))
         this.setState({ 
-          dealCategories: response.data,
-          loading: null,
+          dealCategories: response.items
        })
+    })
+    .finally(() => {
+      this.setState({loading: null})
     })
   }
 
