@@ -1,1 +1,3 @@
-# Fat Deals Admin Client
+# ZDeals Admin Client
+
+Baked with React, Redux and Bootstrap
