@@ -1,3 +1,3 @@
 # ZDeals Admin Client
 
-Baked with React and Bootstrap
+Baked with React, Redux and Bootstrap
